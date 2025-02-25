@@ -25,7 +25,7 @@ public class LoginService {
             System.out.println("No customer found");
         }
         else if(customer.getPassword().equals(password)){
-            System.out.println("Congrats you've logged in");
+            System.out.println("Congrats! You've logged in.");
             return customer;
         }
         else{

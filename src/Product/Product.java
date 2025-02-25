@@ -60,12 +60,7 @@ public class Product extends Model {
 
     @Override
     public String toString() {
-        return "Product.Product{" +
-                "productId=" + productId +
-                ", name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                ", price=" + price +
-                ", stockQuantity=" + stockQuantity +
-                '}';
+        return String.format("Product ID: %-5d | Name: %-20s | Price %-10.2f kr | Stock: %-5d",
+                this.productId, this.name, this.price, this.stockQuantity);
     }
 }

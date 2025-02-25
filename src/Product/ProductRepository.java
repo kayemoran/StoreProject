@@ -25,7 +25,7 @@ public class ProductRepository extends Repository{
                         rs.getInt("stock_quantity")
                 );
                 products.add(product);
-                System.out.println(product.toString());
+                //System.out.println(product.toString());
             }
         }
         return products;

@@ -1,19 +1,37 @@
 package Login;
 
+import Customer.Customer;
+import Customer.CustomerController;
+import Customer.CustomerService;
+import Order.OrderController;
+import Order.OrderRepository;
+import Product.Product;
+import Product.ProductRepository;
+
+import java.sql.Array;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 
 public class LoginController {
 
     LoginService loginService;
+    OrderController orderController;
+    CustomerService customerService;
+    ProductRepository productRepository;
+    OrderRepository orderRepository;
 
     // Scanner för användarinput
     Scanner scanner;
 
     public LoginController() {
         // Skapa instanser av nödvändiga objekt
+        this.orderController = new OrderController();
         this.loginService = new LoginService();
+        this.customerService = new CustomerService();
+        this.productRepository = new ProductRepository();
+        this.orderRepository = new OrderRepository();
         this.scanner = new Scanner(System.in);
     }
 
@@ -21,10 +39,11 @@ public class LoginController {
         while (true) {
             try {
                 System.out.println("\n=== Login ===");
-                System.out.println("1. Logga in som kund");
-                System.out.println("2. Logga in som Admin");
-                System.out.println("0. Avsluta");
-                System.out.print("Välj ett alternativ: ");
+                System.out.println("1. Log in as customer");
+                System.out.println("2. Log in as Admin");
+                System.out.println("3. Register new customer");
+                System.out.println("0. Exit");
+                System.out.print("Choose from one of the options: ");
 
                 String select = scanner.nextLine();
 
@@ -34,7 +53,13 @@ public class LoginController {
                         String email = scanner.nextLine();
                         System.out.println("Enter password");
                         String password = scanner.nextLine();
-                        loginService.loginAsCustomer(email, password);
+                        Customer customer = loginService.loginAsCustomer(email, password);
+
+                        if (customer != null) {
+                            System.out.println("Welcome, " + customer.getUserName() + "!");
+                            showCustomerMenu(customer); //Shows menu for customers
+                            return; // Stop login menu from showing after login
+                        }
                         break;
                     case "2":
                         System.out.println("Enter name:");
@@ -43,11 +68,30 @@ public class LoginController {
                         String adminPassword = scanner.nextLine();
                         loginService.loginAsAdmin(userName, adminPassword);
                         break;
+                    case "3":
+                        System.out.println("Enter name");
+                        String username = scanner.nextLine();
+
+                        System.out.println("Enter email");
+                        String eMail = scanner.nextLine();
+
+                        System.out.println("Enter phone number");
+                        String phoneNmbr = scanner.nextLine();
+
+                        System.out.println("Enter address");
+                        String address = scanner.nextLine();
+
+                        System.out.println("Enter password");
+                        String userPassword = scanner.nextLine();
+
+                        customerService.addCustomer(username, eMail, phoneNmbr, address, userPassword);
+                        break;
                     case "0":
-                        System.out.println("Avslutar kundhantering...");
+                        System.out.println("Exiting customer management...");
                         return;
                     default:
-                        System.out.println("Ogiltigt val, försök igen");
+                        System.out.println("Input not valid. Please try again.");
+                        break;
                 }
             } catch (SQLException e) {
                 // Hantera databasfel
@@ -56,6 +100,46 @@ public class LoginController {
                 // Hantera övriga fel (t.ex. felaktig input)
                 System.out.println("Ett oväntat fel uppstod: " + e.getMessage());
                 scanner.nextLine(); // Rensa scanner-bufferten vid felinmatning
+            }
+        }
+    }
+
+    private void showCustomerMenu(Customer customer) throws SQLException {
+        while (true) {
+            System.out.println("\n=== Customer Menu ===");
+            System.out.println("1. View products");
+            System.out.println("2. Place an order");
+            System.out.println("3. Order history");
+            System.out.println("0. Log out");
+            System.out.print("Choose an option: ");
+
+            String choice = scanner.nextLine();
+
+            switch (choice) {
+                case "1":
+                    //Retrieve products
+                    ArrayList<Product> products = productRepository.getAll();
+
+                    //Print out products
+                    System.out.println("Products: ");
+                    for (Product product : products) {
+                        System.out.println(product);
+                    }
+                    break;
+                case "2":
+                    orderController.placeOrder(customer.getId());
+                    break;
+                case "3":
+                    orderRepository.getAll();
+                    break;
+                case "0":
+                    System.out.println("Logging out...");
+                    return;
+                default:
+                    System.out.println("Input not valid. Please try again.");
+                    break;
+
+
             }
         }
     }
