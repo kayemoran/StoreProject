@@ -1,6 +1,6 @@
 package Product;
 
-import Super.Model;
+import Super.Model; //ärver från Super.Model
 
 public class Product extends Model {
 
@@ -57,10 +57,10 @@ public class Product extends Model {
     public void setStockQuantity(int stockQuantity) {
         this.stockQuantity = stockQuantity;
     }
-
+//getters setters
     @Override
     public String toString() {
         return String.format("Product ID: %-5d | Name: %-20s | Price %-10.2f kr | Stock: %-5d",
                 this.productId, this.name, this.price, this.stockQuantity);
-    }
+    }//en snygg strängrepresentation av objekt
 }

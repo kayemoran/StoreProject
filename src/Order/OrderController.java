@@ -9,9 +9,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class OrderController {
-    private OrderRepository orderRepository;
-    private ProductRepository productRepository;
+public class OrderController { //mellanhand mellan användare och orderdata
+    private OrderRepository orderRepository; //koppling till databas
+    private ProductRepository productRepository; //hämtar produkter
     private Scanner scanner;
 
     public OrderController() {
@@ -50,7 +50,7 @@ public class OrderController {
             }
 
             Order newOrder = new Order(0, customerId, new java.sql.Date(System.currentTimeMillis()));
-            orderRepository.addOrder(newOrder);
+            orderRepository.addOrder(newOrder); //skapar ny order och spara i databas
 
         } catch (SQLException e) {
             System.out.println("Error placing the order.");

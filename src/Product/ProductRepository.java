@@ -11,7 +11,7 @@ public class ProductRepository extends Repository{
         ArrayList<Product> products = new ArrayList<>();
 
         // try-with-resources stänger automatiskt Connection, Statement och ResultSet
-        try (Connection conn = DriverManager.getConnection(URL);
+        try (Connection conn = DriverManager.getConnection(URL); //anslunting till databas
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery("SELECT * FROM products")) {
 

@@ -1,6 +1,6 @@
 package Customer;
 
-import Super.User;
+import Super.User; //ärver user
 
 public class Customer extends User {
 
@@ -12,7 +12,7 @@ public class Customer extends User {
     public Customer(int id, String name, String userName, String phone, String address, String password) {
         super(id, userName, password);
         this.name = name;
-        this.email = userName;
+        this.email = userName; //är denna korrekt?
         this.phone = phone;
         this.address = address;
     }
