@@ -1,5 +1,6 @@
 package Login;
 
+import Admin.Admin;
 import Customer.Customer;
 import Customer.CustomerController;
 import Customer.CustomerService;
@@ -63,11 +64,19 @@ public class LoginController {
                         break;
                     case "2":
                         System.out.println("Enter name:");
-                        String userName = scanner.nextLine();
+                        String adminUsername = scanner.nextLine();
                         System.out.println("Enter password");
                         String adminPassword = scanner.nextLine();
-                        loginService.loginAsAdmin(userName, adminPassword);
+                        Admin admin = loginService.loginAsAdmin(adminUsername, adminPassword);
+                        //  loginService.loginAsAdmin(userName, adminPassword);
+
+                        if (admin != null) {
+                            System.out.println("Welcome Admin, " + admin.getUserName() + "!");
+                            showAdminMenu(admin); //visa meny för admins
+                            return;
+                        }
                         break;
+
                     case "3":
                         System.out.println("Enter name");
                         String username = scanner.nextLine();
@@ -101,6 +110,43 @@ public class LoginController {
                 System.out.println("Ett oväntat fel uppstod: " + e.getMessage());
                 scanner.nextLine(); // Rensa scanner-bufferten vid felinmatning
             }
+        }
+    }
+
+    private void showAdminMenu (Admin admin)  throws SQLException{ //admin menyn
+        while (true) {
+            System.out.println("==== Admin Menu ===");
+            System.out.println("1. Manage Products");
+            System.out.println("2. Manage Customers");
+            System.out.println("3. Manage Stock");
+            System.out.println("4. Manage Pricing");
+            System.out.println("0. Log out");
+            System.out.println("Choose an option: ");
+
+           String choice = scanner.nextLine();
+
+            /**switch (choice){
+                case "1":
+                    manageProducts();
+                    break;
+                case "2":
+                    manageCustomers();
+                    break;
+                case "3":
+                    manageOrders();
+                    break;
+                case "4":
+                    manageStock();
+                    break;
+                case "5":
+                    managePricing();
+                case "0":
+                    System.out.println("Logging out...");
+                    return;
+                default:
+                    System.out.println("Invalid input try again: ");
+                    break;
+            }*/
         }
     }
 

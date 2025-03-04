@@ -29,3 +29,9 @@ bin/
 .DS_Store
 
 webbutiken.db
+
+# SQLite databasfiler
+# *.db ignorerar alla filer som slutar med .db
+*.db
+webbutiken.db
+webshop.db
