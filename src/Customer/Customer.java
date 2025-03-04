@@ -8,6 +8,7 @@ public class Customer extends User {
     private String email;
     private String phone;
     private String address;
+    private String password;
 
     public Customer(int id, String name, String userName, String phone, String address, String password) {
         super(id, userName, password);
@@ -15,6 +16,7 @@ public class Customer extends User {
         this.email = userName; //är denna korrekt?
         this.phone = phone;
         this.address = address;
+        this.password=password;
     }
 
 
