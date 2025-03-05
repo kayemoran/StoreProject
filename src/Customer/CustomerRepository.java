@@ -63,6 +63,8 @@ public class CustomerRepository extends Repository {
         }
     }
 
+
+
     public void addCustomer(String name, String phone, String email, String address, String password) throws SQLException {
 
         String sql = "INSERT INTO customers (name, email, phone, address, password) " +

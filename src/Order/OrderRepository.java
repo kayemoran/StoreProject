@@ -41,4 +41,17 @@ public class OrderRepository extends Repository {
         }
         return orders;
     }
+
+    public void addOrderProduct(OrderProduct orderProduct) throws SQLException {
+        String sql = "INSERT INTO orders_products (order_id, product_id, quantity, unit_price) VALUES (?, ?, ?, ?)";
+        try (Connection connection = DriverManager.getConnection(URL);
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setInt(1, orderProduct.getOrder().getOrderId());
+            preparedStatement.setInt(2, orderProduct.getProduct().getProductId());
+            preparedStatement.setInt(3, orderProduct.getQuantity());
+            preparedStatement.setDouble(4, orderProduct.getUnitPrice());
+
+            preparedStatement.executeUpdate();
+        }
+    }
 }

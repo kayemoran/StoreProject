@@ -8,12 +8,14 @@ public class ProductController {
 
     // Service-lager för kundhantering, hanterar affärslogik
     ProductRepository productRepository;
+    ProductService productService;
 
     // Scanner för användarinput
     Scanner scanner;
 
     public ProductController() {
         // Skapa instanser av nödvändiga objekt
+        this.productService = new ProductService();
         this.productRepository = new ProductRepository();
         this.scanner = new Scanner(System.in);
     }
@@ -40,7 +42,7 @@ public class ProductController {
                 switch (select) {
                     case 1:
                         // Anropa service-lagret för att visa alla kunder
-                        productRepository.getAll();
+                        productService.showAllProducts();
                         break;
                     case 2:
                         // Anropa service-lagret för att visa en kund baserat på id
@@ -49,18 +51,17 @@ public class ProductController {
                         //customerService.showUserById(id);
                         break;
                     case 3:
-                        // Anropa service-lagret för att visa en kund baserat på id
                         System.out.println("Ange namn");
                         String name = scanner.next();
-                        System.out.println("Ange email");
-                        String email = scanner.next();
-                        System.out.println("Ange telefon");
-                        String phone = scanner.next();
-                        System.out.println("Ange adress");
-                        String address = scanner.next();
-                        System.out.println("Ange lösenord");
-                        String password = scanner.next();
-                        //customerService.addCustomer(name, email, phone, address, password);
+                        System.out.println("Ange beskrivning");
+                        String description = scanner.next();
+                        System.out.println("Ange pris");
+                        double price = scanner.nextDouble();
+                        System.out.println("Ange antal i lager");
+                        int stockQuantity = scanner.nextInt();
+
+                        Product product = new Product(name, description, price, stockQuantity);
+                        productService.addProduct(product);
                         break;
                     case 0:
                         System.out.println("Avslutar kundhantering...");

@@ -18,6 +18,12 @@ public class Product extends Model {
         this.stockQuantity = stockQuantity;
     }
 
+    public Product(String name, String description, double price, int stockQuantity) {
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.stockQuantity = stockQuantity;
+    }
     public int getProductId() {
         return productId;
     }
@@ -25,6 +31,16 @@ public class Product extends Model {
     public void setProductId(int productId) {
         this.productId = productId;
     }
+
+    /*public int getManufacturerId() {
+        return manufacturerId;
+    }
+
+    public void setManufacturerId(int manufacturerId) {
+        this.manufacturerId = manufacturerId;
+    }
+
+     */
 
     public String getName() {
         return name;

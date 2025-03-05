@@ -31,4 +31,25 @@ public class ProductRepository extends Repository{
         return products;
     }
 
+    public void addProduct(Product product) throws SQLException {
+        String sql = "INSERT INTO products (name, description, price, stock_quantity) VALUES (?, ?, ?, ?)";
+
+        try (Connection connection = DriverManager.getConnection(URL);
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setString(1, product.getName());
+            preparedStatement.setString(2, product.getDescription());
+            preparedStatement.setDouble(3, product.getPrice());
+            preparedStatement.setInt(4, product.getStockQuantity());
+
+            //check how many rows were affected and executes
+            int rowInserted = preparedStatement.executeUpdate();
+            if (rowInserted > 0) {
+                System.out.println("Product added successfully.");
+
+            } else {
+                System.out.println("Failed to add product.");
+            }
+        }
+    }
+
 }

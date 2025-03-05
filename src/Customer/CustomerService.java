@@ -62,10 +62,9 @@ public class CustomerService {
         System.out.println(customer.toString());
     }
 
+
     public void addCustomer(String name, String email, String phone, String address, String password) throws SQLException {
-
         customerRepository.addCustomer(name, email, phone, address, password);
-
     }
 
     /**
