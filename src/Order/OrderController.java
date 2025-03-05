@@ -71,7 +71,7 @@ public class OrderController { //mellanhand mellan användare och orderdata
             }
 
 
-            Order newOrder = new Order(0,customerId, new java.sql.Date(System.currentTimeMillis()));
+            Order newOrder = new Order(0, customerId, new java.sql.Date(System.currentTimeMillis()));
             orderService.addOrder(newOrder);
 
             for (OrderProduct orderProduct : orderProducts) {
@@ -81,6 +81,9 @@ public class OrderController { //mellanhand mellan användare och orderdata
                 System.out.println("Total Price: " + orderProduct.getTotalPrice());
                 orderService.addOrderProduct(orderProduct);
             }
+
+            System.out.println("Continuing to payment...");
+            orderService.proceedToPayment(newOrder);
 
         } catch (SQLException e) {
             System.out.println("Error placing the order.");

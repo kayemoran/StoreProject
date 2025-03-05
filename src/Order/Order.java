@@ -15,6 +15,9 @@ public class Order {
         this.orderDate = orderDate;
     }
 
+    public void setOrderId(int orderId) {
+        this.orderId = orderId;
+    }
     public int getOrderId() {
         return orderId;
     }

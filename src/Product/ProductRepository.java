@@ -52,4 +52,24 @@ public class ProductRepository extends Repository{
         }
     }
 
+
+    private void deleteAProduct(Product product) throws SQLException {
+        String sqlDelete = ("DELETE from products WHERE product_id = ?");
+        try (Connection connection = DriverManager.getConnection(URL);
+             PreparedStatement preparedStatement = connection.prepareStatement(sqlDelete)) {
+            preparedStatement.setInt(1, product.getProductId());
+
+            int delete = preparedStatement.executeUpdate();
+
+            if (delete > 0) {
+                System.out.println("Product deleted successfully.");
+            } else {
+                System.out.println("The inserted ID could not be found.");
+            }
+        }
+
+    }
+
+
+
 }

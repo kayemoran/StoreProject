@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 
 public class OrderRepository extends Repository {
-    public void addOrder(Order order) throws SQLException {
+    public int addOrder(Order order) throws SQLException {
         String sql = "INSERT INTO orders (customer_id, order_date) " +
                 "VALUES (?, ?)";
 
@@ -16,8 +16,17 @@ public class OrderRepository extends Repository {
             preparedStatement.setInt(1, order.getCustomerId());
             preparedStatement.setDate(2, order.getOrderDate());
 
-            preparedStatement.executeUpdate();
+            int affectedRows = preparedStatement.executeUpdate();
+
+            if(affectedRows > 0) {
+                try (ResultSet generatedKeys = preparedStatement.getGeneratedKeys()) {
+                    if (generatedKeys.next()) {
+                        return generatedKeys.getInt(1);
+                    }
+                }
+            }
         }
+        return -1; //if failed
     }
 
     public ArrayList<Order> getAll() throws SQLException {
