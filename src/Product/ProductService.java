@@ -13,6 +13,8 @@ public class ProductService {
     public ArrayList<Product> showAllProducts() throws SQLException {
         ArrayList<Product> products = productRepository.getAll();
 
+        System.out.println();
+
         if (products.isEmpty()) {
             System.out.println("Inga produkter hittades.");
         }
