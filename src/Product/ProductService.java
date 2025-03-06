@@ -27,6 +27,17 @@ public class ProductService {
     public void addProduct(Product product) throws SQLException {
         productRepository.addProduct(product);
     }
+    public Product getProductById (int productId) throws SQLException{
+        return productRepository.getProductById(productId);
+    }
+
+    public void updateProduct (Product product) throws SQLException {
+        productRepository.addProduct(product);
+    }
+
+    public void deleteProduct (Product product) throws SQLException {
+        productRepository.deleteAProduct(product);
+    }
 
 
 }

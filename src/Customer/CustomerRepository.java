@@ -82,7 +82,28 @@ public class CustomerRepository extends Repository {
             pstmt.executeUpdate();
         }
     }
+public void deleteCustomer (int customerId) throws SQLException{
+        String sql = "DELETE FROM customers WHERE customer_id = ?";
+        try (Connection conn = DriverManager.getConnection(URL);
+        PreparedStatement pstmt = conn.prepareStatement(sql)){
+    pstmt.setInt(1, customerId);
+    pstmt.executeUpdate();
+    }
+}
+public void updateCustomer (Customer customer) throws SQLException{
+        String sql = "UPDATE customer SET name = ?, email = ?, phone = ?, adress = ?, password = ? WHERE customer_id = ?";
+        try (Connection conn = DriverManager.getConnection(URL);
+             PreparedStatement pstmt = conn.prepareStatement(sql)){
+                 pstmt.setString(1, customer.getName());
+                 pstmt.setString(2, customer.getEmail());
+                 pstmt.setString(3, customer.getPhone());
+                 pstmt.setString(4, customer.getAddress());
+                 pstmt.setString(5, customer.getPassword());
+                 pstmt.setInt(6, customer.getId());
 
+                 pstmt.executeUpdate();
+        }
+}
 
     /**
      * Här kan fler metoder läggas till som t.ex:

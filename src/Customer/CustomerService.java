@@ -67,6 +67,18 @@ public class CustomerService {
         customerRepository.addCustomer(name, email, phone, address, password);
     }
 
+    public void deleteCustomer (int customerId) throws SQLException{
+        customerRepository.deleteCustomer(customerId);
+    }
+
+    public void updateCustomer (Customer customer) throws SQLException{
+        customerRepository.updateCustomer(customer);
+    }
+
+    public Customer getCustomerById(int customerId) throws SQLException{
+        return customerRepository.getCustomerById(customerId);
+    }
+
     /**
      * Här kan man lägga till fler metoder som t.ex:
      * - getCustomerById

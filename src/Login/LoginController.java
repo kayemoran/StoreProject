@@ -1,6 +1,7 @@
 package Login;
 
 import Admin.Admin;
+import Admin.AdminController;
 import Customer.Customer;
 import Customer.CustomerController;
 import Customer.CustomerService;
@@ -23,6 +24,8 @@ public class LoginController {
     ProductRepository productRepository;
     OrderRepository orderRepository;
 
+    AdminController adminController;
+
     // Scanner för användarinput
     Scanner scanner;
 
@@ -34,6 +37,8 @@ public class LoginController {
         this.productRepository = new ProductRepository();
         this.orderRepository = new OrderRepository();
         this.scanner = new Scanner(System.in);
+        this.adminController = new AdminController(); //instans av admin
+
     }
 
     public void run() {
@@ -72,7 +77,7 @@ public class LoginController {
 
                         if (admin != null) {
                             System.out.println("Welcome Admin, " + admin.getUserName() + "!");
-                            showAdminMenu(admin); //visa meny för admins
+                            adminController.showAdminMenu(admin); //visa meny för admins
                             return;
                         }
                         break;
@@ -114,42 +119,6 @@ public class LoginController {
     }
 
 
-    private void showAdminMenu (Admin admin)  throws SQLException{ //admin menyn
-        while (true) {
-            System.out.println("==== Admin Menu ===");
-            System.out.println("1. Manage Products");
-            System.out.println("2. Manage Customers");
-            System.out.println("3. Manage Stock");
-            System.out.println("4. Manage Pricing");
-            System.out.println("0. Log out");
-            System.out.println("Choose an option: ");
-
-           String choice = scanner.nextLine();
-/**
-            switch (choice){
-                case "1":
-                    manageProducts();
-                    break;
-                case "2":
-                    manageCustomers();
-                    break;
-                case "3":
-                    manageOrders();
-                    break;
-                case "4":
-                    manageStock();
-                    break;
-                case "5":
-                    managePricing();
-                case "0":
-                    System.out.println("Logging out...");
-                    return;
-                default:
-                    System.out.println("Invalid input try again: ");
-                    break;
-            }*/
-        }
-    }
 
     private void showCustomerMenu(Customer customer) throws SQLException {
         while (true) {
