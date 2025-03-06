@@ -113,6 +113,7 @@ public class LoginController {
         }
     }
 
+
     private void showAdminMenu (Admin admin)  throws SQLException{ //admin menyn
         while (true) {
             System.out.println("==== Admin Menu ===");
@@ -124,8 +125,8 @@ public class LoginController {
             System.out.println("Choose an option: ");
 
            String choice = scanner.nextLine();
-
-            /**switch (choice){
+/**
+            switch (choice){
                 case "1":
                     manageProducts();
                     break;

@@ -53,7 +53,7 @@ public class ProductRepository extends Repository{
     }
 
 
-    private void deleteAProduct(Product product) throws SQLException {
+    public void deleteAProduct(Product product) throws SQLException {
         String sqlDelete = ("DELETE from products WHERE product_id = ?");
         try (Connection connection = DriverManager.getConnection(URL);
              PreparedStatement preparedStatement = connection.prepareStatement(sqlDelete)) {
@@ -69,7 +69,4 @@ public class ProductRepository extends Repository{
         }
 
     }
-
-
-
 }
