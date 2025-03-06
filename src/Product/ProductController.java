@@ -51,6 +51,8 @@ public class ProductController {
                         //customerService.showUserById(id);
                         break;
                     case 3:
+                        System.out.println("Ange tillverkare");
+                        int manufacturer = scanner.nextInt();
                         System.out.println("Ange namn");
                         String name = scanner.next();
                         System.out.println("Ange beskrivning");
@@ -60,9 +62,13 @@ public class ProductController {
                         System.out.println("Ange antal i lager");
                         int stockQuantity = scanner.nextInt();
 
-                        Product product = new Product(name, description, price, stockQuantity);
+                        /*
+                        Product product = new Product(manufacturer, name, description, price, stockQuantity);
                         productService.addProduct(product);
+
+                         */
                         break;
+
                     case 0:
                         System.out.println("Avslutar kundhantering...");
                         return;

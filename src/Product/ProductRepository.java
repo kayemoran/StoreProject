@@ -46,6 +46,7 @@ public class ProductRepository extends Repository{
             if (rowInserted > 0) {
                 System.out.println("Product added successfully.");
 
+
             } else {
                 System.out.println("Failed to add product.");
             }
@@ -68,6 +69,36 @@ public class ProductRepository extends Repository{
             }
         }
 
+    }
+
+
+    public Product getProductById(int productId) throws SQLException {
+
+        String sql = "SELECT * FROM products WHERE product_id = ?";
+
+        // try-with-resources stänger automatiskt Connection, Statement och ResultSet
+        try (Connection conn = DriverManager.getConnection(URL); //anslunting till databas
+             PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
+                preparedStatement.setInt(1, productId);
+
+                ResultSet rs = preparedStatement.executeQuery();
+                //Loopa igenom alla rader från databasen
+
+                if (!rs.next()) {
+                    return null;
+                }
+
+                return new Product(
+                    rs.getInt("product_id"),
+                    //rs.getInt("manufacturer_id"),
+                    rs.getString("name"),
+                    rs.getString("description"),
+                    rs.getDouble("price"),
+                    rs.getInt("stock_quantity")
+                );
+                //System.out.println(product.toString());
+
+        }
     }
 
 

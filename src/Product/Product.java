@@ -5,6 +5,7 @@ import Super.Model; //ärver från Super.Model
 public class Product extends Model {
 
     private int productId;
+    private int manufacturerId;
     private String name;
     private String description;
     private double price;
@@ -18,11 +19,20 @@ public class Product extends Model {
         this.stockQuantity = stockQuantity;
     }
 
-    public Product(String name, String description, double price, int stockQuantity) {
-        this.name = name;
+    /*
+    public Product(int manufacturerId, String name, String description, double price, int stockQuantity) {
+        this.manufacturerId = manufacturerId;
         this.description = description;
+        this.name = name;
         this.price = price;
         this.stockQuantity = stockQuantity;
+    }
+
+     */
+
+
+    public int getManufacturerId() {
+        return manufacturerId;
     }
     public int getProductId() {
         return productId;
@@ -73,10 +83,10 @@ public class Product extends Model {
     public void setStockQuantity(int stockQuantity) {
         this.stockQuantity = stockQuantity;
     }
-//getters setters
+    //getters setters
     @Override
     public String toString() {
-        return String.format("Product ID: %-5d | Name: %-20s | Price %-10.2f kr | Stock: %-5d",
-                this.productId, this.name, this.price, this.stockQuantity);
+        return String.format("Product ID: %-5d | Name: %-20s | Description: %-20s | Price %-10.2f kr | Stock Quantity: %-5d",
+                this.productId, this.name, this.description, this.price, this.stockQuantity);
     }//en snygg strängrepresentation av objekt
 }
