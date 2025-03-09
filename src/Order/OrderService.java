@@ -50,8 +50,10 @@ public class OrderService {
         System.out.println("Enter card number:");
         int number = scanner.nextInt();
 
+        System.out.println();
         System.out.println("Controlling card " + number + " ...");
         System.out.println("Card is valid!");
+        System.out.println();
         return true;
     }
 
@@ -62,18 +64,6 @@ public class OrderService {
         System.out.println("Customer ID: " + order.getCustomerId());
     }
 
-    public double calculateTotalPrice(ArrayList<OrderProduct> orderProducts) {
-        double totalPrice = 0;
-
-        for (OrderProduct orderProduct1 : orderProducts) {
-            totalPrice += orderProduct1.getTotalPrice();
-        }
-        return totalPrice;
-    }
-
-    public void updateOrder(Order order) {
-
-    }
 
 }
 

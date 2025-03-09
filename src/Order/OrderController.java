@@ -75,14 +75,17 @@ public class OrderController { //mellanhand mellan användare och orderdata
             orderService.addOrder(newOrder);
 
             for (OrderProduct orderProduct : orderProducts) {
+                System.out.println();
                 System.out.println("Product: " + orderProduct.getProduct().getName() + " x " +
                         orderProduct.getQuantity());
                 System.out.println("Unit Price: " + orderProduct.getUnitPrice());
                 System.out.println("Total Price: " + orderProduct.getTotalPrice());
                 orderService.addOrderProduct(orderProduct);
+                productService.updateStockQuantity(orderProduct.getProduct().getProductId(), orderProduct.getQuantity());
             }
 
             System.out.println("Continuing to payment...");
+            System.out.println();
             orderService.proceedToPayment(newOrder);
 
         } catch (SQLException e) {

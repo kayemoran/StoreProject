@@ -54,23 +54,6 @@ public class ProductRepository extends Repository{
     }
 
 
-    public void deleteAProduct(Product product) throws SQLException {
-        String sqlDelete = ("DELETE from products WHERE product_id = ?");
-        try (Connection connection = DriverManager.getConnection(URL);
-             PreparedStatement preparedStatement = connection.prepareStatement(sqlDelete)) {
-            preparedStatement.setInt(1, product.getProductId());
-
-            int delete = preparedStatement.executeUpdate();
-
-            if (delete > 0) {
-                System.out.println("Product deleted successfully.");
-            } else {
-                System.out.println("The inserted ID could not be found.");
-            }
-        }
-
-    }
-
 
     public Product getProductById(int productId) throws SQLException {
 
@@ -101,6 +84,24 @@ public class ProductRepository extends Repository{
         }
     }
 
+    public void updateStockQuantity(int productId, int quantityOrdered) throws SQLException {
+        String sql = "UPDATE products SET stock_quantity = stock_quantity - ? WHERE product_id = ? AND stock_quantity >= ?";
+
+        try (Connection connection = DriverManager.getConnection(URL);
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setInt(1, quantityOrdered); //The quantity substracted
+            preparedStatement.setInt(2, productId);
+            preparedStatement.setInt(3, quantityOrdered); //Checks if there's enough
+
+            int rowsUpdated = preparedStatement.executeUpdate();
+            if (rowsUpdated > 0) {
+                System.out.println("Stock updated successfully.");
+
+            }else {
+                System.out.println("Failed to update stock. Product not found or not enough stock.");
+            }
+        }
+    }
 
 
 }

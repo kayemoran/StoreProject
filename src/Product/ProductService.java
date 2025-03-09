@@ -39,5 +39,9 @@ public class ProductService {
         productRepository.deleteAProduct(product);
     }
 
+    public  void updateStockQuantity(int productId, int quantityOrdered) throws SQLException {
+        productRepository.updateStockQuantity(productId, quantityOrdered);
+    }
+
 
 }
