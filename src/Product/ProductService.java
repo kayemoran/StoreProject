@@ -28,5 +28,9 @@ public class ProductService {
         productRepository.addProduct(product);
     }
 
+    public  void updateStockQuantity(int productId, int quantityOrdered) throws SQLException {
+        productRepository.updateStockQuantity(productId, quantityOrdered);
+    }
+
 
 }
