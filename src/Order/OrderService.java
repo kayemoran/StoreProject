@@ -1,5 +1,8 @@
 package Order;
 
+import Customer.Customer;
+import Product.Product;
+
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -29,8 +32,24 @@ public class OrderService {
         orderRepository.addOrderProduct(orderProduct);
     }
 
-    public void showOrderHistory() throws SQLException {
+    public ArrayList<Order> showOrderHistory(int customerId) throws SQLException {
+        ArrayList<Order> orders = orderRepository.getOrdersByCustomer(customerId);
 
+        System.out.println();
+
+        if (orders.isEmpty()) {
+            System.out.println("No orders found.");
+        }
+
+        // Skriv ut alla kunder med tydlig formatering
+        System.out.println("\n=== Order History ===");
+        for (Order order : orders) {
+            System.out.println("Order ID: " + order.getOrderId());
+            System.out.println("Date: " + order.getOrderDate());
+            System.out.println("Customer ID: " + order.getCustomerId());
+            System.out.println();
+        }
+        return orders;
     }
 
     public void proceedToPayment(Order order) {

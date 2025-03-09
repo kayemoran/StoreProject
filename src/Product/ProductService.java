@@ -35,10 +35,6 @@ public class ProductService {
         productRepository.addProduct(product);
     }
 
-    public void deleteProduct (Product product) throws SQLException {
-        productRepository.deleteAProduct(product);
-    }
-
     public  void updateStockQuantity(int productId, int quantityOrdered) throws SQLException {
         productRepository.updateStockQuantity(productId, quantityOrdered);
     }

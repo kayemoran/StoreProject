@@ -1,5 +1,6 @@
 package Order;
 import Customer.Customer;
+import Product.Product;
 import Super.Repository;
 
 import java.sql.*;
@@ -29,27 +30,33 @@ public class OrderRepository extends Repository {
         return -1; //if failed
     }
 
-    public ArrayList<Order> getAll() throws SQLException {
+    public ArrayList<Order> getOrdersByCustomer(int customerId) throws SQLException {
         ArrayList<Order> orders = new ArrayList<>();
 
+        String sql = "SELECT * FROM orders WHERE customer_id = ?";
+
         try (Connection conn = DriverManager.getConnection(URL);
-             Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery("SELECT * FROM orders")) {
+             PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
+                preparedStatement.setInt(1,customerId);
 
-            while (rs.next()) {
+                ResultSet rs = preparedStatement.executeQuery();
 
-                java.sql.Date sqlDate = rs.getDate("order_date");
+                while (rs.next()) {
+                    Order order = new Order (
+                            rs.getInt("order_id"),
+                            rs.getInt("customer_id"),
+                            rs.getDate("order_date")
 
-                Order order = new Order (
-                        rs.getInt("order_id"),
-                        rs.getInt("customer_id"),
-                        sqlDate
-                );
-                orders.add(order);
-            }
+                    );
+                    orders.add(order);
+                }
+
+
+
         }
         return orders;
     }
+
 
     public void addOrderProduct(OrderProduct orderProduct) throws SQLException {
         String sql = "INSERT INTO orders_products (order_id, product_id, quantity, unit_price) VALUES (?, ?, ?, ?)";

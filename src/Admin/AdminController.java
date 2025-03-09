@@ -93,17 +93,6 @@ public class AdminController {
                break;
 
             case "4":
-                System.out.print("Ange produkt ID att ta bort: ");
-                int deleteId = Integer.parseInt(scanner.nextLine());
-                Product productToDelete = productService.getProductById(deleteId);
-                if(productToDelete != null){
-                    productService.deleteProduct(productToDelete);
-                    System.out.println("Produkt har tagits bort ");
-                }else{
-                    System.out.println("Produkten hittades inte");
-                }
-                break;
-
             case "0":
                 return;
             default:

@@ -7,6 +7,7 @@ import Customer.CustomerController;
 import Customer.CustomerService;
 import Order.OrderController;
 import Order.OrderRepository;
+import Order.OrderService;
 import Product.Product;
 import Product.ProductRepository;
 
@@ -23,8 +24,10 @@ public class LoginController {
     CustomerService customerService;
     ProductRepository productRepository;
     OrderRepository orderRepository;
+    OrderService orderService;
 
     AdminController adminController;
+    private Customer loggedInCustomer;
 
     // Scanner för användarinput
     Scanner scanner;
@@ -36,6 +39,7 @@ public class LoginController {
         this.customerService = new CustomerService();
         this.productRepository = new ProductRepository();
         this.orderRepository = new OrderRepository();
+        this.orderService = new OrderService();
         this.scanner = new Scanner(System.in);
         this.adminController = new AdminController(); //instans av admin
 
@@ -43,6 +47,7 @@ public class LoginController {
 
     public void run() {
         while (true) {
+
             try {
                 System.out.println("\n=== Login ===");
                 System.out.println("1. Log in as customer");
@@ -62,6 +67,7 @@ public class LoginController {
                         Customer customer = loginService.loginAsCustomer(email, password);
 
                         if (customer != null) {
+                            loggedInCustomer = customer;
                             System.out.println("Welcome, " + customer.getUserName() + "!");
                             showCustomerMenu(customer); //Shows menu for customers
                             return; // Stop login menu from showing after login
@@ -146,10 +152,14 @@ public class LoginController {
                     orderController.placeOrder(customer.getId());
                     break;
                 case "3":
-                    orderRepository.getAll();
+                    orderService.showOrderHistory(customer.getId());
                     break;
                 case "0":
-                    System.out.println("Logging out...");
+                    if (loggedInCustomer != null) {
+                        System.out.println("Logging out...");
+                        loggedInCustomer = null;
+                    }
+
                     return;
                 default:
                     System.out.println("Input not valid. Please try again.");

@@ -41,8 +41,6 @@ public class OrderController { //mellanhand mellan användare och orderdata
                 System.out.print("Enter the Product ID you want to buy: ");
                 int productId = Integer.parseInt(scanner.nextLine());
 
-                System.out.println("Enter quantity: ");
-                int quantity = Integer.parseInt(scanner.nextLine());
 
                 Product selectedProduct = null;
                 for (Product product : products) {
@@ -55,12 +53,24 @@ public class OrderController { //mellanhand mellan användare och orderdata
 
                 if (selectedProduct == null) {
                     System.out.println("Invalid Product ID.");
-
-                } else {
-                    Order newOrder = new Order(0,customerId, new java.sql.Date(System.currentTimeMillis()));
-                    OrderProduct orderProduct = new OrderProduct(newOrder, selectedProduct, quantity, selectedProduct.getPrice());
-                    orderProducts.add(orderProduct);
+                    continue;
                 }
+
+                int quantity;
+                while (true) {
+                    System.out.println("Enter quantity: ");
+                    quantity = Integer.parseInt(scanner.nextLine());
+
+                    if (quantity > selectedProduct.getStockQuantity()) {
+                        System.out.println("Sorry, only " + selectedProduct.getStockQuantity() + " available in stock.");
+                    } else {
+                        break;
+                    }
+                }
+
+                Order newOrder = new Order(0,customerId, new java.sql.Date(System.currentTimeMillis()));
+                OrderProduct orderProduct = new OrderProduct(newOrder, selectedProduct, quantity, selectedProduct.getPrice());
+                orderProducts.add(orderProduct);
 
 
                 System.out.println("Do you want to continue shopping? (yes/no): ");
@@ -84,6 +94,7 @@ public class OrderController { //mellanhand mellan användare och orderdata
                 productService.updateStockQuantity(orderProduct.getProduct().getProductId(), orderProduct.getQuantity());
             }
 
+            System.out.println();
             System.out.println("Continuing to payment...");
             System.out.println();
             orderService.proceedToPayment(newOrder);
