@@ -2,7 +2,8 @@ package Product;
 
 import Super.Model; //ärver från Super.Model
 
-public class Product extends Model {
+public class
+Product extends Model {
 
     private int productId;
     private int manufacturerId;

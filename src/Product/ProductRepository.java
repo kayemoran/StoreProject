@@ -3,12 +3,20 @@ package Product;
 import Super.*;
 
 import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class ProductRepository extends Repository{
 
+    private static final String URL = "jdbc:sqlite:webbutiken.db";
+    public static Connection getConnection()throws SQLException{
+        return DriverManager.getConnection(URL);
+    }
     public ArrayList<Product> getAll() throws SQLException {
         ArrayList<Product> products = new ArrayList<>();
+        String sql = "SELECT id, namn price FROM products";
 
         // try-with-resources stänger automatiskt Connection, Statement och ResultSet
         try (Connection conn = DriverManager.getConnection(URL); //anslunting till databas

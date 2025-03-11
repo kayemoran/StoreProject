@@ -5,6 +5,8 @@ import Order.OrderService;
 import Product.Product;
 import Product.ProductController;
 import Product.ProductService;
+
+import java.util.ArrayList;
 import java.util.Scanner;
 import java.sql.SQLException;
 
@@ -68,7 +70,10 @@ public class AdminController {
 
         switch (choice) {
             case "1":
-                productService.showAllProducts();
+                ArrayList<Product> products = productService.showAllProducts();
+                if (products.isEmpty()){
+                    System.out.println("Inga produkter hittades i databass");
+                }
                 break;
             case "2":
                 ProductController productController = new ProductController();
@@ -145,28 +150,53 @@ public class AdminController {
         System.out.println("=== Manage Stock Menu ===");
     }
 
+
     private void managePricing() throws SQLException{
         System.out.println("=== Manage Pricing Menu ===");
         System.out.println("1. Uppdatera produktpris");
-        System.out.println("2.TJOOOOO ");
-        System.out.println("3. King e du  ");
+        System.out.println("0.Gå tillbaka till Admin Meny");
 
         String choice = scanner.nextLine();
 
         switch (choice){
             case "1":
-                System.out.println("JKknjn");
+                updateProductPrice();
                 //skriv kod för uppdatera pris på produkt
                 break;
 
-            case"2":
-                System.out.println("UwU");
-                break;
-
-            case "3":
-                System.out.println("Wuff wuff");
-                break;
+            case"0":
+                return;
+            default:
+                System.out.println("Felaktig val");
         }
+    }
+    private void updateProductPrice() throws SQLException{
+        System.out.print("Ange produktens ID: ");
 
+
+        try{
+            int productId = Integer.parseInt(scanner.nextLine());
+
+            Product product = productService.getProductById(productId);
+            if (product == null) {
+                System.out.println("Ingen produkt hittades med det ID:t");
+                return;
+            }
+            System.out.println("Nuvarande pris: "+ product.getPrice());
+            System.out.print("Ange det nya priset: ");
+
+            double newPrice = Double.parseDouble(scanner.nextLine());
+
+            if (newPrice < 0){
+                System.out.println("Priset kan inte vara negativt. Försök igen.");
+                return;
+            }
+            product.setPrice(newPrice);
+            productService.updateProduct(product);
+
+            System.out.println("Produktens pris har uppdaterats till "+ newPrice);
+        } catch (NumberFormatException e){
+            System.out.println("Felaktig inmatning, vänligen ange ett giltigt nummer");
+        }
     }
 }
