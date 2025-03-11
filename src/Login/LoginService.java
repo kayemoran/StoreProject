@@ -39,15 +39,15 @@ public class LoginService {
     }
 
     public Admin loginAsAdmin(String userName, String password) throws SQLException { //om man loggar in genom hårdkodad admin
-        if(hardcodedAdmin.getUserName().equals(userName) && hardcodedAdmin.getPassword().equals(password)){
+        if(hardcodedAdmin.getUserName().equals(userName) && hardcodedAdmin.getPassword().equals(password)){ // hårdkodad admin
             System.out.println("Admin login successful!"); //meddelande
             return hardcodedAdmin;
         }
 
 
-       Admin admin = adminRepository.getAdminByUserName(userName);
+       Admin admin = adminRepository.getAdminByUserName(userName); //hämtar admin från databas
 
-        if (admin != null && admin.getPassword().equals(password)) { //om man försöker logga in utan hårdkodad
+        if (admin != null && admin.getPassword().equals(password)) { //om admin finns i databas och lösenordet matchar
             System.out.println("Admin login successful!");
             return admin;
         }

@@ -11,11 +11,11 @@ import java.util.Scanner;
 import java.sql.SQLException;
 
 public class AdminController {
-    private final Scanner scanner = new Scanner(System.in);
+    private final Scanner scanner = new Scanner(System.in); //scannar inmatning från användare
     private final ProductService productService = new ProductService();
     private final CustomerService customerService = new CustomerService();
     private final OrderService orderService = new OrderService();
-
+//skapar instans av services för att hantera ....
 
     public void showAdminMenu (Admin admin)  throws SQLException{ //admin menyn
         while (true) { //loop för att hålla kvar användaren i menyn
@@ -58,7 +58,7 @@ public class AdminController {
             }
         }
     }
-    private void manageProducts() throws SQLException{
+    private void manageProducts() throws SQLException{ //hanterar produkt menyn
         System.out.println("=== Manage Products Menu === ");
         System.out.println("1. Show products");
         System.out.println("2. Add product");
@@ -69,28 +69,28 @@ public class AdminController {
         String choice = scanner.nextLine();
 
         switch (choice) {
-            case "1":
+            case "1": //visar alla produkter
                 ArrayList<Product> products = productService.showAllProducts();
                 if (products.isEmpty()){
                     System.out.println("Inga produkter hittades i databass");
                 }
                 break;
-            case "2":
+            case "2": //lägger till en ny produkt
                 ProductController productController = new ProductController();
                 productController.run();
                 break;
 
-            case "3":
+            case "3": //uppdaterar produkt
                 System.out.print("Produkt ID att uppdatera: ");
-                int updateId = Integer.parseInt(scanner.nextLine());
+                int updateId = Integer.parseInt(scanner.nextLine()); //läs produkt id
                 System.out.print("Ange nytt pris: ");
                 double newPrice = Double.parseDouble(scanner.nextLine());
 
                 //här ska kod för uppdatering skrivas
-                Product productToUpdate = productService.getProductById(updateId);
+                Product productToUpdate = productService.getProductById(updateId); //hämtar produkt baserat på id
                if (productToUpdate != null) {
-                   productToUpdate.setPrice(newPrice);
-                   productService.updateProduct(productToUpdate);
+                   productToUpdate.setPrice(newPrice); //uppdaterar priset på produkt
+                   productService.updateProduct(productToUpdate); //uppdaterar produkt i databas
                    System.out.println("Produktens pris har uppdaterats ");
                }else {
                    System.out.println("Produkt hittades ej. ");
@@ -106,7 +106,7 @@ public class AdminController {
         }
     }
 
-    private void manageCustomers() throws SQLException{
+    private void manageCustomers() throws SQLException{ //hanterar kund meny
         System.out.println("=== Customer menu ===");
         System.out.println("1. Lista kunder");
         System.out.println("2. Uppdatera kund");
@@ -141,17 +141,17 @@ public class AdminController {
         }
     }
 
-    private void manageOrders() throws  SQLException{
+    private void manageOrders() throws  SQLException{ //hanterar ordermny
         System.out.println("=== Manage Orders Menu ===");
 
     }
 
-    private void manageStock() throws SQLException{
+    private void manageStock() throws SQLException{ //hanterar lagerhantering
         System.out.println("=== Manage Stock Menu ===");
     }
 
 
-    private void managePricing() throws SQLException{
+    private void managePricing() throws SQLException{ //hanterar prissättning
         System.out.println("=== Manage Pricing Menu ===");
         System.out.println("1. Uppdatera produktpris");
         System.out.println("0.Gå tillbaka till Admin Meny");
@@ -161,7 +161,7 @@ public class AdminController {
         switch (choice){
             case "1":
                 updateProductPrice();
-                //skriv kod för uppdatera pris på produkt
+                //uppdatera pris på produkt
                 break;
 
             case"0":
@@ -170,14 +170,14 @@ public class AdminController {
                 System.out.println("Felaktig val");
         }
     }
-    private void updateProductPrice() throws SQLException{
+    private void updateProductPrice() throws SQLException{ //uppdatera pris
         System.out.print("Ange produktens ID: ");
 
 
         try{
-            int productId = Integer.parseInt(scanner.nextLine());
+            int productId = Integer.parseInt(scanner.nextLine()); //läs produktens id
 
-            Product product = productService.getProductById(productId);
+            Product product = productService.getProductById(productId); //hämtar produkt baserat på id
             if (product == null) {
                 System.out.println("Ingen produkt hittades med det ID:t");
                 return;
@@ -185,14 +185,14 @@ public class AdminController {
             System.out.println("Nuvarande pris: "+ product.getPrice());
             System.out.print("Ange det nya priset: ");
 
-            double newPrice = Double.parseDouble(scanner.nextLine());
+            double newPrice = Double.parseDouble(scanner.nextLine()); //läser in nya priset
 
             if (newPrice < 0){
                 System.out.println("Priset kan inte vara negativt. Försök igen.");
                 return;
             }
-            product.setPrice(newPrice);
-            productService.updateProduct(product);
+            product.setPrice(newPrice); //uppdaterar priset
+            productService.updateProduct(product); //uppdaterar proudkten i databas
 
             System.out.println("Produktens pris har uppdaterats till "+ newPrice);
         } catch (NumberFormatException e){
