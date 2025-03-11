@@ -183,7 +183,6 @@ public class AdminController {
     private void updateProductPrice() throws SQLException{ //uppdatera pris
         System.out.print("Ange produktens ID: ");
 
-
         try{
             int productId = Integer.parseInt(scanner.nextLine()); //läs produktens id
 

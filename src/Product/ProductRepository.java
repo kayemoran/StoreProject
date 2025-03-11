@@ -92,6 +92,52 @@ public class ProductRepository extends Repository{
         }
     }
 
+    public ArrayList<String> getAllCategories() throws SQLException {
+        ArrayList<String> categories = new ArrayList<>();
+
+        String sql = "SELECT name FROM categories";
+
+        try (Connection conn = DriverManager.getConnection(URL); //anslunting till databas
+             PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
+
+            ResultSet rs = preparedStatement.executeQuery();
+            //Loopa igenom alla rader från databasen
+
+            while (rs.next()) {
+                categories.add(rs.getString("name"));
+            }
+
+        }
+        return categories;
+    }
+
+    public ArrayList<Product> getProductByCategory(String categoryName) throws SQLException {
+        ArrayList<Product> products = new ArrayList<>();
+        String sql = "SELECT p.* FROM products p " +
+                "JOIN products_categories pc ON p.product_id = pc.product_id " +
+                "JOIN categories c ON c.category_id = pc.category_id " +
+                "WHERE c.name = ?";
+
+        try (Connection connection = DriverManager.getConnection(URL);
+            PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setString(1, categoryName);
+
+            ResultSet rs = preparedStatement.executeQuery();
+
+            while (rs.next()) {
+                Product product = new Product(
+                        rs.getInt("product_id"),
+                        rs.getString("name"),
+                        rs.getString("description"),
+                        rs.getDouble("price"),
+                        rs.getInt("stock_quantity")
+                );
+                products.add(product);
+            }
+        }
+        return products;
+    }
+
     public void updateStockQuantity(int productId, int quantityOrdered) throws SQLException {
         String sql = "UPDATE products SET stock_quantity = stock_quantity - ? WHERE product_id = ? AND stock_quantity >= ?";
 
@@ -108,6 +154,27 @@ public class ProductRepository extends Repository{
             }else {
                 System.out.println("Failed to update stock. Product not found or not enough stock.");
             }
+        }
+    }
+
+    public void updateProduct (Product product) throws SQLException {
+        String sql = "UPDATE products SET price = ? WHERE product_id = ?";
+
+        try (Connection conn = ProductRepository.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setDouble(1, product.getPrice());
+            pstmt.setInt(2, product.getProductId());
+
+            int affectedRows = pstmt.executeUpdate();
+
+            if (affectedRows == 0) {
+                System.out.println("Ingen produkt uppdaterades. Kontrollera att produkt ID är rätt.");
+            } else {
+                System.out.println("Produktens pris har uppdaterats i databasen");
+            }
+        }catch (SQLException e){
+            System.out.println("Fel vid uppdatering av produkt: "+ e.getMessage());
         }
     }
 

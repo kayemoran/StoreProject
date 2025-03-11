@@ -37,46 +37,46 @@ public class ProductService {
     }
 
     public void updateProduct (Product product) throws SQLException {
-        String sql = "UPDATE products SET price = ? WHERE product_id = ?";
+        productRepository.updateProduct(product);
+        System.out.println("Product has been successfully updated.");
 
-        try (Connection conn = ProductRepository.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+    }
 
-            pstmt.setDouble(1, product.getPrice());
-            pstmt.setInt(2, product.getProductId());
+    public void showCategories() throws SQLException {
+        ArrayList<String> categories = productRepository.getAllCategories();
 
-            int affectedRows = pstmt.executeUpdate();
-
-            if (affectedRows == 0) {
-                System.out.println("Ingen produkt uppdaterades. Kontrollera att produkt ID är rätt.");
-            } else {
-                System.out.println("Produktens pris har uppdaterats i databasen");
+        if (categories.isEmpty()) {
+            System.out.println("No categories found");
+        } else {
+            System.out.println("Categories: ");
+            for (int i = 0; i < categories.size(); i++) {
+                System.out.println((i + 1) + ". " + categories.get(i));
             }
-        }catch (SQLException e){
-            System.out.println("Fel vid uppdatering av produkt: "+ e.getMessage());
         }
+    }
+
+    public void showProductsByCategory(String categoryName) throws SQLException {
+       ArrayList<Product> products = productRepository.getProductByCategory(categoryName);
+
+       if (products.isEmpty()) {
+           System.out.println("No products found");
+       } else {
+           System.out.println("Products in category " + categoryName + ";");
+           for (Product product : products) {
+               System.out.println("ID: "+ product.getProductId() +
+                       ", Namn: "+ product.getName() +
+                       ", Pris: "+ product.getPrice()+ " kr" +
+                       ", Stock: " + product.getStockQuantity());
+           }
+       }
+
     }
 
     public  void updateStockQuantity(int productId, int quantityOrdered) throws SQLException {
-        try {
-            productRepository.updateStockQuantity(productId, quantityOrdered);
-            System.out.println("Lagerkvantitet uppdaterad för produkt ID: " + productId);
-        } catch (SQLException e) {
-            System.out.println("Fel vid uppdatering av lagerkvantitet för produkt ID " + productId + ": " + e.getMessage());
-        }
+        productRepository.updateStockQuantity(productId, quantityOrdered);
+        //System.out.println("Lagerkvantitet uppdaterad för produkt ID: " + productId);
+
     }
 
-    public ArrayList<Product> searchProductsByName(String searchTerm) throws SQLException {
-        ArrayList<Product> allProducts = productRepository.getAll();  // Hämta alla produkter
-        ArrayList<Product> matchingProducts = new ArrayList<>();
-
-        for (Product product : allProducts) {
-            if (product.getName().toLowerCase().contains(searchTerm.toLowerCase())) { // Matcha produkternas namn
-                matchingProducts.add(product);  // Lägg till produkter som matchar sökterm
-            }
-        }
-
-        return matchingProducts;
-    }
 
 }

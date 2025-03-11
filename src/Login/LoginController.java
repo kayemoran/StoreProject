@@ -26,7 +26,7 @@ public class LoginController {
     ProductRepository productRepository;
     OrderRepository orderRepository;
     OrderService orderService;
-
+    ProductService productService;
     AdminController adminController;
     private Customer loggedInCustomer;
 
@@ -41,6 +41,7 @@ public class LoginController {
         this.productRepository = new ProductRepository();
         this.orderRepository = new OrderRepository();
         this.orderService = new OrderService();
+        this.productService = new ProductService();
         this.scanner = new Scanner(System.in);
         this.adminController = new AdminController(); //instans av admin
 
@@ -125,8 +126,6 @@ public class LoginController {
         }
     }
 
-
-
     private void showCustomerMenu(Customer customer) throws SQLException {
         while (true) {
             System.out.println("\n=== Customer Menu ===");
@@ -134,6 +133,7 @@ public class LoginController {
             System.out.println("2. Place an order");
             System.out.println("3. Order history");
             System.out.println("4. Search product by name");
+            System.out.println("5. Search product by category");
             System.out.println("0. Log out");
             System.out.print("Choose an option: ");
 
@@ -157,7 +157,15 @@ public class LoginController {
                     orderService.showOrderHistory(customer.getId());
                     break;
                 case "4":
-                    searchProducts();
+                    //searchProducts();
+                    break;
+                case "5":
+                    productService.showCategories();
+                    System.out.println();
+                    System.out.println("Enter name of category: ");
+                    String category = scanner.nextLine();
+
+                    productService.showProductsByCategory(category);
                     break;
                 case "0":
                     if (loggedInCustomer != null) {
@@ -174,20 +182,5 @@ public class LoginController {
             }
         }
     }
-    private void searchProducts ()throws SQLException {
-        System.out.print("Enter product name to search: ");
-        String searchTerm = scanner.nextLine();
 
-        ArrayList<Product> foundProducts = customerService.searchProductsByName(searchTerm);
-
-        if(foundProducts.isEmpty()){
-            System.out.println("No products found matching " + searchTerm);
-        }else {
-            System.out.println("\n=== Search Results ===");
-            for (Product product : foundProducts) {
-                System.out.println("ID: "+ product.getProductId() + ", Name: "+ product.getName()+ ", Price: "+ product.getPrice()+ " kr");
-
-            }
-        }
-    }
 }
