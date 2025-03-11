@@ -32,23 +32,24 @@ public class OrderService {
         orderRepository.addOrderProduct(orderProduct);
     }
 
-    public ArrayList<Order> showOrderHistory(int customerId) throws SQLException {
+    public ArrayList<Order> showOrderHistory(int customerId) {
         ArrayList<Order> orders = orderRepository.getOrdersByCustomer(customerId);
 
         System.out.println();
 
-        if (orders.isEmpty()) {
-            System.out.println("No orders found.");
+        if (!orders.isEmpty()) {
+            System.out.println("\n=== Order History ===");
+            for (Order order : orders) {
+                System.out.println("Order ID: " + order.getOrderId());
+                System.out.println("Date: " + order.getOrderDate());
+                System.out.println("Customer ID: " + order.getCustomerId());
+                System.out.println();
+            }
+
+        } else {
+            System.out.println("No orders have been made yet.");
         }
 
-        // Skriv ut alla kunder med tydlig formatering
-        System.out.println("\n=== Order History ===");
-        for (Order order : orders) {
-            System.out.println("Order ID: " + order.getOrderId());
-            System.out.println("Date: " + order.getOrderDate());
-            System.out.println("Customer ID: " + order.getCustomerId());
-            System.out.println();
-        }
         return orders;
     }
 

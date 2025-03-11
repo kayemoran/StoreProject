@@ -92,6 +92,30 @@ public class ProductRepository extends Repository{
         }
     }
 
+    public Product getProductByName(String productName) throws SQLException {
+        String sql = "SELECT * FROM products WHERE name = ?";
+
+        try (Connection connection = DriverManager.getConnection(URL);
+            PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setString(1, productName);
+
+            ResultSet rs = preparedStatement.executeQuery();
+
+            if (!rs.next()) {
+                return null;
+            }
+
+            return new Product(
+                    rs.getInt("product_id"),
+                    //rs.getInt("manufacturer_id"),
+                    rs.getString("name"),
+                    rs.getString("description"),
+                    rs.getDouble("price"),
+                    rs.getInt("stock_quantity")
+            );
+        }
+    }
+
     public ArrayList<String> getAllCategories() throws SQLException {
         ArrayList<String> categories = new ArrayList<>();
 
@@ -175,6 +199,7 @@ public class ProductRepository extends Repository{
             }
         }catch (SQLException e){
             System.out.println("Fel vid uppdatering av produkt: "+ e.getMessage());
+
         }
     }
 

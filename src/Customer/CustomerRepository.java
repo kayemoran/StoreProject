@@ -77,7 +77,13 @@ public class CustomerRepository extends Repository {
             pstmt.setString(4, address);
             pstmt.setString(5, password);
 
-            pstmt.executeUpdate();
+            int rowsUpdated = pstmt.executeUpdate();
+
+            if (rowsUpdated > 0) {
+                System.out.println("Registration successful!");
+            } else {
+                System.out.println("Failed to register new customer. Please try again.");
+            }
         }
     }
     public void deleteCustomer (int customerId) throws SQLException{

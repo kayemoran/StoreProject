@@ -22,7 +22,7 @@ public class LoginService {
     private final Admin hardcodedAdmin = new Admin(1, "admin", "admin123"); //hårdkodad kod för inlgnning av admin
 
 
-    public Customer loginAsCustomer(String email, String password) throws SQLException { //inloggning som customer
+    public Customer loginAsCustomer(String email, String password) { //inloggning som customer
         try {
             Customer customer = customerRepository.getCustomerByEmail(email);
 
@@ -42,7 +42,7 @@ public class LoginService {
         return null;
     }
 
-    public Admin loginAsAdmin(String userName, String password) throws SQLException { //om man loggar in genom hårdkodad admin
+    public Admin loginAsAdmin(String userName, String password) { //om man loggar in genom hårdkodad admin
         try {
             if (hardcodedAdmin.getUserName().equals(userName) && hardcodedAdmin.getPassword().equals(password)) { // hårdkodad admin
                 System.out.println("Admin login successful!"); //meddelande

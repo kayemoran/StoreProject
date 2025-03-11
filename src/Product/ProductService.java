@@ -36,10 +36,25 @@ public class ProductService {
         return productRepository.getProductById(productId);
     }
 
-    public void updateProduct (Product product) throws SQLException {
-        productRepository.updateProduct(product);
-        System.out.println("Product has been successfully updated.");
+    public void updateProduct (Product product) {
+        try {
+            productRepository.updateProduct(product);
+            System.out.println("Product has been successfully updated.");
+        } catch (SQLException e) {
+            System.out.println("Failed to update: " + e.getMessage());
+        }
 
+    }
+
+    public Product showProductName(String productName) throws SQLException {
+        Product product = productRepository.getProductByName(productName);
+
+        if (product != null) {
+            System.out.println(product);
+        } else {
+            System.out.println("No product found by that name.");
+        }
+        return product;
     }
 
     public void showCategories() throws SQLException {
@@ -55,26 +70,34 @@ public class ProductService {
         }
     }
 
-    public void showProductsByCategory(String categoryName) throws SQLException {
-       ArrayList<Product> products = productRepository.getProductByCategory(categoryName);
+    public void showProductsByCategory(String categoryName) {
+        try {
+            ArrayList<Product> products = productRepository.getProductByCategory(categoryName);
 
-       if (products.isEmpty()) {
-           System.out.println("No products found");
-       } else {
-           System.out.println("Products in category " + categoryName + ";");
-           for (Product product : products) {
-               System.out.println("ID: "+ product.getProductId() +
-                       ", Namn: "+ product.getName() +
-                       ", Pris: "+ product.getPrice()+ " kr" +
-                       ", Stock: " + product.getStockQuantity());
-           }
-       }
+            if (products.isEmpty()) {
+                System.out.println("No products found");
+            } else {
+                System.out.println("Products in category " + categoryName + ";");
+                for (Product product : products) {
+                    System.out.println("ID: "+ product.getProductId() +
+                            ", Namn: "+ product.getName() +
+                            ", Pris: "+ product.getPrice()+ " kr" +
+                            ", Stock: " + product.getStockQuantity());
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Error finding products in this category: " + e.getMessage());
+        }
 
     }
 
-    public  void updateStockQuantity(int productId, int quantityOrdered) throws SQLException {
-        productRepository.updateStockQuantity(productId, quantityOrdered);
-        //System.out.println("Lagerkvantitet uppdaterad för produkt ID: " + productId);
+    public  void updateStockQuantity(int productId, int quantityOrdered) {
+        try {
+            productRepository.updateStockQuantity(productId, quantityOrdered);
+
+        } catch (SQLException e) {
+            System.out.println("Failed to update the stock quantity:" + e.getMessage());
+        }
 
     }
 

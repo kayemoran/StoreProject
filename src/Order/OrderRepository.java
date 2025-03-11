@@ -19,7 +19,7 @@ public class OrderRepository extends Repository {
 
             int affectedRows = preparedStatement.executeUpdate();
 
-            if(affectedRows > 0) {
+            if (affectedRows > 0) {
                 try (ResultSet generatedKeys = preparedStatement.getGeneratedKeys()) {
                     if (generatedKeys.next()) {
                         return generatedKeys.getInt(1);
@@ -30,7 +30,7 @@ public class OrderRepository extends Repository {
         return -1; //if failed
     }
 
-    public ArrayList<Order> getOrdersByCustomer(int customerId) throws SQLException {
+    public ArrayList<Order> getOrdersByCustomer(int customerId) {
         ArrayList<Order> orders = new ArrayList<>();
 
         String sql = "SELECT * FROM orders WHERE customer_id = ?";
@@ -51,8 +51,8 @@ public class OrderRepository extends Repository {
                     orders.add(order);
                 }
 
-
-
+        } catch (SQLException e) {
+            System.out.println("Failed to fetch Orders by Customer: " + e.getMessage());
         }
         return orders;
     }
@@ -70,4 +70,5 @@ public class OrderRepository extends Repository {
             preparedStatement.executeUpdate();
         }
     }
+
 }

@@ -107,6 +107,7 @@ public class LoginController {
                         String userPassword = scanner.nextLine();
 
                         customerService.addCustomer(username, eMail, phoneNmbr, address, userPassword);
+                        System.out.println("You have now been registered. Log in as a next step!");
                         break;
                     case "0":
                         System.out.println("Exiting customer management...");
@@ -157,7 +158,10 @@ public class LoginController {
                     orderService.showOrderHistory(customer.getId());
                     break;
                 case "4":
-                    //searchProducts();
+                    System.out.println("Enter the name of the product: ");
+                    String name = scanner.nextLine();
+
+                    productService.showProductName(name);
                     break;
                 case "5":
                     productService.showCategories();
