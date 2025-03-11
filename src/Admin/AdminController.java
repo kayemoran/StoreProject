@@ -59,6 +59,7 @@ public class AdminController {
         }
     }
     private void manageProducts() throws SQLException{ //hanterar produkt menyn
+      try {
         System.out.println("=== Manage Products Menu === ");
         System.out.println("1. Show products");
         System.out.println("2. Add product");
@@ -82,19 +83,23 @@ public class AdminController {
 
             case "3": //uppdaterar produkt
                 System.out.print("Produkt ID att uppdatera: ");
-                int updateId = Integer.parseInt(scanner.nextLine()); //läs produkt id
-                System.out.print("Ange nytt pris: ");
-                double newPrice = Double.parseDouble(scanner.nextLine());
+                try {
+                    int updateId = Integer.parseInt(scanner.nextLine()); //läs produkt id
+                    System.out.print("Ange nytt pris: ");
+                    double newPrice = Double.parseDouble(scanner.nextLine());
 
-                //här ska kod för uppdatering skrivas
-                Product productToUpdate = productService.getProductById(updateId); //hämtar produkt baserat på id
-               if (productToUpdate != null) {
-                   productToUpdate.setPrice(newPrice); //uppdaterar priset på produkt
-                   productService.updateProduct(productToUpdate); //uppdaterar produkt i databas
-                   System.out.println("Produktens pris har uppdaterats ");
-               }else {
-                   System.out.println("Produkt hittades ej. ");
-               }
+                    //här ska kod för uppdatering skrivas
+                    Product productToUpdate = productService.getProductById(updateId); //hämtar produkt baserat på id
+                    if (productToUpdate != null) {
+                        productToUpdate.setPrice(newPrice); //uppdaterar priset på produkt
+                        productService.updateProduct(productToUpdate); //uppdaterar produkt i databas
+                        System.out.println("Produktens pris har uppdaterats ");
+                    } else {
+                        System.out.println("Produkt hittades ej. ");
+                    }
+                }catch (NumberFormatException e){
+                    System.out.println("Produkt hittades ej.");
+                }
                break;
 
             case "4":
@@ -104,7 +109,10 @@ public class AdminController {
                 System.out.println("Felaktiv val");
 
         }
-    }
+    } catch (SQLException e) {
+          System.out.println("Ett fel inträffade");
+        }
+      }
 
     private void manageCustomers() throws SQLException{ //hanterar kund meny
         System.out.println("=== Customer menu ===");
@@ -144,10 +152,12 @@ public class AdminController {
     private void manageOrders() throws  SQLException{ //hanterar ordermny
         System.out.println("=== Manage Orders Menu ===");
 
+
     }
 
     private void manageStock() throws SQLException{ //hanterar lagerhantering
         System.out.println("=== Manage Stock Menu ===");
+        System.out.println("=== Manage Orders Menu ===");
     }
 
 
@@ -197,6 +207,8 @@ public class AdminController {
             System.out.println("Produktens pris har uppdaterats till "+ newPrice);
         } catch (NumberFormatException e){
             System.out.println("Felaktig inmatning, vänligen ange ett giltigt nummer");
+        }catch (SQLException e){
+            System.out.println("Ett fel vid kommunikation med databasen: "+e.getMessage());
         }
     }
 }

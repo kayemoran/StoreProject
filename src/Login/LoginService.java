@@ -6,6 +6,7 @@ import Customer.CustomerRepository;
 import Customer.Customer;
 
 import java.sql.SQLException;
+import java.util.Optional;
 
 public class LoginService {
 
@@ -22,38 +23,46 @@ public class LoginService {
 
 
     public Customer loginAsCustomer(String email, String password) throws SQLException { //inloggning som customer
+        try {
+            Customer customer = customerRepository.getCustomerByEmail(email);
 
-        Customer customer = customerRepository.getCustomerByEmail(email);
-
-        if(customer == null){
-            System.out.println("No customer found");
-        }
-        else if(customer.getPassword().equals(password)){
-            System.out.println("Congrats! You've logged in.");
-            return customer;
-        }
-        else{
-            System.out.println("Wrong password");
+            if (customer == null) {
+                System.out.println("No customer found");
+            } else if (customer.getPassword().equals(password)) {
+                System.out.println("Congrats! You've logged in.");
+                return customer;
+            } else {
+                System.out.println("Wrong password");
+            }
+        }catch (SQLException e){
+            System.out.println("Ett fel inträffade vi kommunikation med databas: " + e.getMessage());
+        }catch (Exception e){
+            System.out.println("Ett oväntat fel inträffade: "+ e.getMessage());
         }
         return null;
     }
 
     public Admin loginAsAdmin(String userName, String password) throws SQLException { //om man loggar in genom hårdkodad admin
-        if(hardcodedAdmin.getUserName().equals(userName) && hardcodedAdmin.getPassword().equals(password)){ // hårdkodad admin
-            System.out.println("Admin login successful!"); //meddelande
-            return hardcodedAdmin;
-        }
+        try {
+            if (hardcodedAdmin.getUserName().equals(userName) && hardcodedAdmin.getPassword().equals(password)) { // hårdkodad admin
+                System.out.println("Admin login successful!"); //meddelande
+                return hardcodedAdmin;
+            }
 
 
-       Admin admin = adminRepository.getAdminByUserName(userName); //hämtar admin från databas
+            Admin admin = adminRepository.getAdminByUserName(userName); //hämtar admin från databas
 
-        if (admin != null && admin.getPassword().equals(password)) { //om admin finns i databas och lösenordet matchar
-            System.out.println("Admin login successful!");
-            return admin;
-        }
+            if (admin != null && admin.getPassword().equals(password)) { //om admin finns i databas och lösenordet matchar
+                System.out.println("Admin login successful!");
+                return admin;
+            }
             System.out.println("No admin found with that username");
-            return null;
-
+        } catch (SQLException e) {
+            System.out.println("Ett fel intrffade vid kommunikation med databas: " + e.getMessage());
+        } catch (Exception e) {
+            System.out.println("Ett oväntat fel inträffade: " + e.getMessage());
+        }
+        return null;
     }
-
 }
+

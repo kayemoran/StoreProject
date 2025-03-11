@@ -10,6 +10,7 @@ import Order.OrderRepository;
 import Order.OrderService;
 import Product.Product;
 import Product.ProductRepository;
+import Product.ProductService;
 
 import java.sql.Array;
 import java.sql.SQLException;
@@ -132,6 +133,7 @@ public class LoginController {
             System.out.println("1. View products");
             System.out.println("2. Place an order");
             System.out.println("3. Order history");
+            System.out.println("4. Search product by name");
             System.out.println("0. Log out");
             System.out.print("Choose an option: ");
 
@@ -154,6 +156,9 @@ public class LoginController {
                 case "3":
                     orderService.showOrderHistory(customer.getId());
                     break;
+                case "4":
+                    searchProducts();
+                    break;
                 case "0":
                     if (loggedInCustomer != null) {
                         System.out.println("Logging out...");
@@ -165,6 +170,22 @@ public class LoginController {
                     System.out.println("Input not valid. Please try again.");
                     break;
 
+
+            }
+        }
+    }
+    private void searchProducts ()throws SQLException {
+        System.out.print("Enter product name to search: ");
+        String searchTerm = scanner.nextLine();
+
+        ArrayList<Product> foundProducts = customerService.searchProductsByName(searchTerm);
+
+        if(foundProducts.isEmpty()){
+            System.out.println("No products found matching " + searchTerm);
+        }else {
+            System.out.println("\n=== Search Results ===");
+            for (Product product : foundProducts) {
+                System.out.println("ID: "+ product.getProductId() + ", Name: "+ product.getName()+ ", Price: "+ product.getPrice()+ " kr");
 
             }
         }

@@ -47,17 +47,36 @@ public class ProductService {
 
             int affectedRows = pstmt.executeUpdate();
 
-            if(affectedRows == 0){
+            if (affectedRows == 0) {
                 System.out.println("Ingen produkt uppdaterades. Kontrollera att produkt ID är rätt.");
             } else {
                 System.out.println("Produktens pris har uppdaterats i databasen");
             }
+        }catch (SQLException e){
+            System.out.println("Fel vid uppdatering av produkt: "+ e.getMessage());
         }
     }
 
     public  void updateStockQuantity(int productId, int quantityOrdered) throws SQLException {
-        productRepository.updateStockQuantity(productId, quantityOrdered);
+        try {
+            productRepository.updateStockQuantity(productId, quantityOrdered);
+            System.out.println("Lagerkvantitet uppdaterad för produkt ID: " + productId);
+        } catch (SQLException e) {
+            System.out.println("Fel vid uppdatering av lagerkvantitet för produkt ID " + productId + ": " + e.getMessage());
+        }
     }
 
+    public ArrayList<Product> searchProductsByName(String searchTerm) throws SQLException {
+        ArrayList<Product> allProducts = productRepository.getAll();  // Hämta alla produkter
+        ArrayList<Product> matchingProducts = new ArrayList<>();
+
+        for (Product product : allProducts) {
+            if (product.getName().toLowerCase().contains(searchTerm.toLowerCase())) { // Matcha produkternas namn
+                matchingProducts.add(product);  // Lägg till produkter som matchar sökterm
+            }
+        }
+
+        return matchingProducts;
+    }
 
 }
