@@ -1,5 +1,9 @@
 package Super;
 
+/**
+ * Abstract class representing a user with attributes.
+ * To be used as a base for other user types.
+ */
 public abstract class User{
 
     private int id;

@@ -10,6 +10,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+/**
+ * Controller class that handles user interaction in relation with placing orders.
+ * Manages the process of ordering.
+ */
 public class OrderController { //mellanhand mellan användare och orderdata
     private OrderRepository orderRepository; //koppling till databas
     private ProductRepository productRepository; //hämtar produkter
@@ -17,6 +21,10 @@ public class OrderController { //mellanhand mellan användare och orderdata
     private OrderService orderService;
     private Scanner scanner;
 
+    /**
+     * Constructor that initializes the controller.
+     * Sets up repositories, services and objects.
+     */
     public OrderController() {
         this.orderRepository = new OrderRepository();
         this.productRepository = new ProductRepository();
@@ -25,6 +33,12 @@ public class OrderController { //mellanhand mellan användare och orderdata
         this.scanner = new Scanner(System.in);
     }
 
+    /**
+     * Lets the customer place an order.
+     * Customer can select products and quantities.
+     * The customer's order gets saved in the database.
+     * @param customerId the ID of the customer who's placing the order
+     */
     public void placeOrder(int customerId) {
         try {
             //Displays products

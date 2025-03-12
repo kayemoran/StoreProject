@@ -8,12 +8,28 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+/**
+ * Repository class that handles the interaction with the database when it comes to product.
+ *
+ */
 public class ProductRepository extends Repository{
 
     private static final String URL = "jdbc:sqlite:webbutiken.db";
+
+    /**
+     * Creates a connection with the database.
+     * @return a Connection object to the database
+     * @throws SQLException if there's a database error
+     */
     public static Connection getConnection()throws SQLException{
         return DriverManager.getConnection(URL);
     }
+
+    /**
+     * Gets all products from the database.
+     * @return a list of all products in the database
+     * @throws SQLException if there's a database error
+     */
     public ArrayList<Product> getAll() throws SQLException {
         ArrayList<Product> products = new ArrayList<>();
         String sql = "SELECT id, namn price FROM products";
@@ -39,6 +55,11 @@ public class ProductRepository extends Repository{
         return products;
     }
 
+    /**
+     * Adds a new product to the database.
+     * @param product the product to be added
+     * @throws SQLException if there's a database error
+     */
     public void addProduct(Product product) throws SQLException {
         String sql = "INSERT INTO products (name, description, price, stock_quantity) VALUES (?, ?, ?, ?)";
 
@@ -62,7 +83,12 @@ public class ProductRepository extends Repository{
     }
 
 
-
+    /**
+     * Gets a product from the database by ID
+     * @param productId the product to get
+     * @return the product, null if not found
+     * @throws SQLException if there's a database error
+     */
     public Product getProductById(int productId) throws SQLException {
 
         String sql = "SELECT * FROM products WHERE product_id = ?";
@@ -92,6 +118,12 @@ public class ProductRepository extends Repository{
         }
     }
 
+    /**
+     * Gets a product by name
+     * @param productName
+     * @return the product, null if not found
+     * @throws SQLException if there's a database error
+     */
     public Product getProductByName(String productName) throws SQLException {
         String sql = "SELECT * FROM products WHERE name = ?";
 
@@ -107,7 +139,6 @@ public class ProductRepository extends Repository{
 
             return new Product(
                     rs.getInt("product_id"),
-                    //rs.getInt("manufacturer_id"),
                     rs.getString("name"),
                     rs.getString("description"),
                     rs.getDouble("price"),
@@ -116,6 +147,11 @@ public class ProductRepository extends Repository{
         }
     }
 
+    /**
+     * Gets all categories in the database.
+     * @return a list of category name
+     * @throws SQLException if there's a database connection
+     */
     public ArrayList<String> getAllCategories() throws SQLException {
         ArrayList<String> categories = new ArrayList<>();
 
@@ -135,6 +171,12 @@ public class ProductRepository extends Repository{
         return categories;
     }
 
+    /**
+     * Gets product from the database based on category name.
+     * @param categoryName the name of the category to filter products by
+     * @return a list of products that belong to the category
+     * @throws SQLException if there's a database error
+     */
     public ArrayList<Product> getProductByCategory(String categoryName) throws SQLException {
         ArrayList<Product> products = new ArrayList<>();
         String sql = "SELECT p.* FROM products p " +
@@ -162,6 +204,12 @@ public class ProductRepository extends Repository{
         return products;
     }
 
+    /**
+     * Updates the stock quantity of a product in the database.
+     * @param productId the product ID
+     * @param quantityOrdered the quantity to subtract from the stock
+     * @throws SQLException if there's a database error
+     */
     public void updateStockQuantity(int productId, int quantityOrdered) throws SQLException {
         String sql = "UPDATE products SET stock_quantity = stock_quantity - ? WHERE product_id = ? AND stock_quantity >= ?";
 
@@ -181,6 +229,11 @@ public class ProductRepository extends Repository{
         }
     }
 
+    /**
+     * Updates the price of a product in the database.
+     * @param product the product with the updated price
+     * @throws SQLException if there's a database error
+     */
     public void updateProduct (Product product) throws SQLException {
         String sql = "UPDATE products SET price = ? WHERE product_id = ?";
 

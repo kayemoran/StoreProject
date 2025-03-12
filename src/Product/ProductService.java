@@ -5,13 +5,25 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+/**
+ * Service class to manage the product related logic.
+ */
 public class ProductService {
     private ProductRepository productRepository;
 
+    /**
+     * Constructor that initializes repository object.
+     * Product repo being initialized to interact with the database.
+     */
     public ProductService() {
         productRepository = new ProductRepository();
     }
 
+    /**
+     * Shows all products.
+     * @return a list of products
+     * @throws SQLException if there's a database error
+     */
     public ArrayList<Product> showAllProducts() throws SQLException {
         ArrayList<Product> products = productRepository.getAll();
 
@@ -29,13 +41,21 @@ public class ProductService {
         return products;
 
     }
-    public void addProduct(Product product) throws SQLException {
-        productRepository.addProduct(product);
-    }
+
+    /**
+     * Gets a producgt by ID.
+     * @param productId the ID of the product to get
+     * @return the product, null if not found
+     * @throws SQLException if there's a database error
+     */
     public Product getProductById (int productId) throws SQLException{
         return productRepository.getProductById(productId);
     }
 
+    /**
+     * Updates the product details in the database.
+     * @param product the product with updated details
+     */
     public void updateProduct (Product product) {
         try {
             productRepository.updateProduct(product);
@@ -46,6 +66,12 @@ public class ProductService {
 
     }
 
+    /**
+     * Gets a product by its name.
+     * @param productName the name of the product to get
+     * @return the product, null if not found
+     * @throws SQLException if there's a database error
+     */
     public Product showProductName(String productName) throws SQLException {
         Product product = productRepository.getProductByName(productName);
 
@@ -57,6 +83,10 @@ public class ProductService {
         return product;
     }
 
+    /**
+     * Shows all categories.
+     * @throws SQLException if there's a database error
+     */
     public void showCategories() throws SQLException {
         ArrayList<String> categories = productRepository.getAllCategories();
 
@@ -70,6 +100,10 @@ public class ProductService {
         }
     }
 
+    /**
+     * Shows all products in a given category.
+     * @param categoryName the category name to filter products by
+     */
     public void showProductsByCategory(String categoryName) {
         try {
             ArrayList<Product> products = productRepository.getProductByCategory(categoryName);
@@ -91,6 +125,11 @@ public class ProductService {
 
     }
 
+    /**
+     * Updates the stock quantity of a product.
+     * @param productId the ID of the product to update
+     * @param quantityOrdered the quantity to subtract from the stock
+     */
     public  void updateStockQuantity(int productId, int quantityOrdered) {
         try {
             productRepository.updateStockQuantity(productId, quantityOrdered);

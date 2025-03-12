@@ -10,6 +10,11 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import java.sql.SQLException;
 
+/**
+ * A class that manages the admin's interaction with the program.
+ * Handles the admin's input, menu and provides functionality for managing.
+ */
+
 public class AdminController {
     private final Scanner scanner = new Scanner(System.in); //scannar inmatning från användare
     private final ProductService productService = new ProductService();
@@ -17,6 +22,11 @@ public class AdminController {
     private final OrderService orderService = new OrderService();
 //skapar instans av services för att hantera ....
 
+    /**
+     * Shows the admin menu and handles the choices.
+     * @param admin the admin using the menu
+     * @throws SQLException if there's a database error
+     */
     public void showAdminMenu (Admin admin)  throws SQLException{ //admin menyn
         while (true) { //loop för att hålla kvar användaren i menyn
             System.out.println("==== Admin Menu ===");
@@ -54,10 +64,14 @@ public class AdminController {
                     break;
             }
         }catch (NumberFormatException e) {
-    System.out.println("Felaktig inmatning, vänlig ange ett giltigt svar");
+            System.out.println("Felaktig inmatning, vänlig ange ett giltigt svar");
             }
         }
     }
+
+    /**
+     * Opens the product management menu
+     */
     private void manageProducts() throws SQLException{ //hanterar produkt menyn
       try {
         System.out.println("=== Manage Products Menu === ");
@@ -114,6 +128,10 @@ public class AdminController {
         }
       }
 
+    /**
+     * Opens the customer management menu.
+     * @throws SQLException if there's a database error
+     */
     private void manageCustomers() throws SQLException{ //hanterar kund meny
         System.out.println("=== Customer menu ===");
         System.out.println("1. Lista kunder");
@@ -149,18 +167,30 @@ public class AdminController {
         }
     }
 
+    /**
+     * Opens the management menu.
+     * @throws SQLException
+     */
     private void manageOrders() throws  SQLException{ //hanterar ordermny
         System.out.println("=== Manage Orders Menu ===");
 
 
     }
 
+    /**
+     * Opens the stock management menu
+     * @throws SQLException
+     */
     private void manageStock() throws SQLException{ //hanterar lagerhantering
         System.out.println("=== Manage Stock Menu ===");
         System.out.println("=== Manage Orders Menu ===");
     }
 
 
+    /**
+     * Opens the pricing management menu.
+     * @throws SQLException
+     */
     private void managePricing() throws SQLException{ //hanterar prissättning
         System.out.println("=== Manage Pricing Menu ===");
         System.out.println("1. Uppdatera produktpris");
@@ -180,6 +210,11 @@ public class AdminController {
                 System.out.println("Felaktig val");
         }
     }
+
+    /**
+     * Updates a product's price
+     * @throws SQLException
+     */
     private void updateProductPrice() throws SQLException{ //uppdatera pris
         System.out.print("Ange produktens ID: ");
 

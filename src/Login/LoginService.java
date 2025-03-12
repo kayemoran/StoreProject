@@ -8,21 +8,35 @@ import Customer.Customer;
 import java.sql.SQLException;
 import java.util.Optional;
 
+/**
+ * A class that handles login logic for users.
+ */
 public class LoginService {
 
     CustomerRepository customerRepository;
     AdminRepository adminRepository;
     //LoginController loginController;
 
+    /**
+     * Constructor that initializes the customer and admin repositories.
+     */
     public LoginService() {
         this.customerRepository = new CustomerRepository();
         this.adminRepository = new AdminRepository();
         //this.loginController = new LoginController();
     }
+
     //hårdkodad admin konto
     private final Admin hardcodedAdmin = new Admin(1, "admin", "admin123");
 
 
+    /**
+     * Method that allows customer to log in with email and password.
+     *
+     * @param email customer's email
+     * @param password customer's password
+     * @return the customer object, null if login fails
+     */
     public Customer loginAsCustomer(String email, String password) { //inloggning som customer
         try {
             Customer customer = customerRepository.getCustomerByEmail(email);
@@ -43,6 +57,12 @@ public class LoginService {
         return null;
     }
 
+    /**
+     * Method that allows admind to log in with username and password.
+     * @param userName admin's username
+     * @param password admin's password
+     * @return the admin object, null if login fails
+     */
     public Admin loginAsAdmin(String userName, String password) { //om man loggar in genom hårdkodad admin
         try {
             if (hardcodedAdmin.getUserName().equals(userName) && hardcodedAdmin.getPassword().equals(password)) { // hårdkodad admin

@@ -17,7 +17,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-
+/**
+ * Controller class that handles the login process and interaction with user.
+ */
 public class LoginController {
 
     LoginService loginService;
@@ -33,6 +35,9 @@ public class LoginController {
     // Scanner för användarinput
     Scanner scanner;
 
+    /**
+     * Constructor that initializes objects and repositories.
+     */
     public LoginController() {
         // Skapa instanser av nödvändiga objekt
         this.orderController = new OrderController();
@@ -47,6 +52,11 @@ public class LoginController {
 
     }
 
+    /**
+     * Method to run the login process.
+     * Displays the login options.
+     * Handles user input.
+     */
     public void run() {
         while (true) {
 
@@ -127,6 +137,11 @@ public class LoginController {
         }
     }
 
+    /**
+     * Shows the customer menu with options.
+     * @param customer the logged in customer
+     * @throws SQLException if there's a database error
+     */
     private void showCustomerMenu(Customer customer) throws SQLException {
         while (true) {
             System.out.println("\n=== Customer Menu ===");

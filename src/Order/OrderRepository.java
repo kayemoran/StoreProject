@@ -6,8 +6,17 @@ import Super.Repository;
 import java.sql.*;
 import java.util.ArrayList;
 
-
+/**
+ * Repository class for orders in the database.
+ * Manages orders.
+ */
 public class OrderRepository extends Repository {
+    /**
+     * Adds a new order to the database.
+     * @param order the order being added
+     * @return the generated order ID, -1 if operation fails
+     * @throws SQLException if there's a database error
+     */
     public int addOrder(Order order) throws SQLException {
         String sql = "INSERT INTO orders (customer_id, order_date) " +
                 "VALUES (?, ?)";
@@ -30,6 +39,11 @@ public class OrderRepository extends Repository {
         return -1; //if failed
     }
 
+    /**
+     * Gets all orders linked to a specific customer from the database.
+     * @param customerId the ID of the customer
+     * @return a list of orders by one specific customer
+     */
     public ArrayList<Order> getOrdersByCustomer(int customerId) {
         ArrayList<Order> orders = new ArrayList<>();
 
@@ -58,6 +72,11 @@ public class OrderRepository extends Repository {
     }
 
 
+    /**
+     * Adds a product to an order in the database.
+     * @param orderProduct the orderProduct that is being added
+     * @throws SQLException if there's a database error
+     */
     public void addOrderProduct(OrderProduct orderProduct) throws SQLException {
         String sql = "INSERT INTO orders_products (order_id, product_id, quantity, unit_price) VALUES (?, ?, ?, ?)";
         try (Connection connection = DriverManager.getConnection(URL);

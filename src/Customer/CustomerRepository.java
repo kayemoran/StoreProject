@@ -4,8 +4,16 @@ import Super.*;
 import java.sql.*;
 import java.util.ArrayList;
 
+/**
+ * The class handles database operations for customers.
+ */
 public class CustomerRepository extends Repository {
 
+    /**
+     * Gets all customers from the database.
+     * @return a list of customers
+     * @throws SQLException if there's a database error
+     */
     public ArrayList<Customer> getAll() throws SQLException {
         ArrayList<Customer> customers = new ArrayList<>();
 
@@ -28,6 +36,12 @@ public class CustomerRepository extends Repository {
         return customers;
     }
 
+    /**
+     * Gets one customer by their ID.
+     * @param customerId the customer's ID
+     * @return the customer with the ID, null if not found
+     * @throws SQLException if there's a database error
+     */
     public Customer getCustomerById(int customerId) throws SQLException {
 
         String sql = "SELECT * FROM customers WHERE customer_id = ?";
@@ -46,6 +60,12 @@ public class CustomerRepository extends Repository {
         }
     }
 
+    /**
+     * Gets a customer by email.
+     * @param email the customer's email
+     * @return the customer with the email, null if not found
+     * @throws SQLException if there's a database error
+     */
     public Customer getCustomerByEmail(String email) throws SQLException {
         String sql = "SELECT * FROM customers WHERE email = ?";
 
@@ -63,6 +83,15 @@ public class CustomerRepository extends Repository {
         }
     }
 
+    /**
+     * Adds a new customer to the database.
+     * @param name the customer's name
+     * @param phone the customer's phone number
+     * @param email the customer's email
+     * @param address the customer's address
+     * @param password the customer's password
+     * @throws SQLException if there's a database error
+     */
     public void addCustomer(String name, String phone, String email, String address, String password) throws SQLException {
 
         String sql = "INSERT INTO customers (name, email, phone, address, password) " +
@@ -86,6 +115,12 @@ public class CustomerRepository extends Repository {
             }
         }
     }
+
+    /**
+     * Deletes a customer from the database.
+     * @param customerId the customer's ID
+     * @throws SQLException if there's a database error
+     */
     public void deleteCustomer (int customerId) throws SQLException{
             String sql = "DELETE FROM customers WHERE customer_id = ?";
             try (Connection conn = DriverManager.getConnection(URL);
@@ -94,6 +129,12 @@ public class CustomerRepository extends Repository {
         pstmt.executeUpdate();
         }
     }
+
+    /**
+     * Updates a customer's information in the database.
+     * @param customer the customer with the updated info
+     * @throws SQLException if there's a database error
+     */
     public void updateCustomer (Customer customer) throws SQLException{
             String sql = "UPDATE customer SET name = ?, email = ?, phone = ?, adress = ?, password = ? WHERE customer_id = ?";
             try (Connection conn = DriverManager.getConnection(URL);
@@ -109,19 +150,5 @@ public class CustomerRepository extends Repository {
             }
     }
 
-    /**
-     * Här kan fler metoder läggas till som t.ex:
-     * - addCustomer
-     * - getCustomerById
-     * - updateCustomer
-     * - deleteCustomer
-     * - findCustomerByEmail
-     *
-     * Varje metod kommer följa samma mönster:
-     * 1. Skapa Connection med DriverManager.getConnection(URL)
-     * 2. Skapa Statement eller PreparedStatement
-     * 3. Utför databasoperationen
-     * 4. Hantera resultatet
-     * 5. Låt try-with-resources stänga alla resurser
-     */
+
 }
