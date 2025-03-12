@@ -41,7 +41,7 @@ public class CustomerRepository extends Repository {
 
             if (!rs.next()) {
                 return null;
-            }
+            } //skapa och returnera customer-object
             return new Customer(customerId, rs.getString("name"), rs.getString("email"), rs.getString("phone"), rs.getString("address"), rs.getString("password") );
         }
     }
@@ -55,10 +55,10 @@ public class CustomerRepository extends Repository {
             pstmt.setString(1, email);
 
             ResultSet rs = pstmt.executeQuery();
-
+            //om ingen kund hittas, returnera null
             if (!rs.next()) {
                 return null;
-            }
+            }//skapa och returnera customer-objek
             return new Customer(rs.getInt("customer_id"), rs.getString("name"), rs.getString("email"), rs.getString("phone"), rs.getString("address"), rs.getString("password") );
         }
     }
@@ -70,14 +70,14 @@ public class CustomerRepository extends Repository {
 
         try (Connection conn = DriverManager.getConnection(URL);
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
-
+            //sätter parametrrar för det nya kundkontot
             pstmt.setString(1, name);
             pstmt.setString(2, phone);
             pstmt.setString(3, email);
             pstmt.setString(4, address);
             pstmt.setString(5, password);
 
-            int rowsUpdated = pstmt.executeUpdate();
+            int rowsUpdated = pstmt.executeUpdate(); //krö sql frågan & kontrollera om registeringen lyckades
 
             if (rowsUpdated > 0) {
                 System.out.println("Registration successful!");

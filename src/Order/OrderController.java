@@ -80,7 +80,7 @@ public class OrderController { //mellanhand mellan användare och orderdata
                 }
             }
 
-
+            //Skapa ny order och lägg till i databasen
             Order newOrder = new Order(0, customerId, new java.sql.Date(System.currentTimeMillis()));
             orderService.addOrder(newOrder);
 

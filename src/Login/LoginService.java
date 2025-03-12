@@ -19,7 +19,8 @@ public class LoginService {
         this.adminRepository = new AdminRepository();
         //this.loginController = new LoginController();
     }
-    private final Admin hardcodedAdmin = new Admin(1, "admin", "admin123"); //hårdkodad kod för inlgnning av admin
+    //hårdkodad admin konto
+    private final Admin hardcodedAdmin = new Admin(1, "admin", "admin123");
 
 
     public Customer loginAsCustomer(String email, String password) { //inloggning som customer
