@@ -31,7 +31,6 @@ public class ProductController {
                 System.out.println("\n=== Produkthantering ===");
                 System.out.println("1. Visa alla produkter");
                 System.out.println("2. Visa en produkt");
-                System.out.println("3. Lägg till en produkt");
                 System.out.println("0. Avsluta");
                 System.out.print("Välj ett alternativ: ");
 
@@ -50,25 +49,6 @@ public class ProductController {
                         int id = scanner.nextInt();
                         //customerService.showUserById(id);
                         break;
-                    case 3:
-                        System.out.println("Ange tillverkare");
-                        int manufacturer = scanner.nextInt();
-                        System.out.println("Ange namn");
-                        String name = scanner.next();
-                        System.out.println("Ange beskrivning");
-                        String description = scanner.next();
-                        System.out.println("Ange pris");
-                        double price = scanner.nextDouble();
-                        System.out.println("Ange antal i lager");
-                        int stockQuantity = scanner.nextInt();
-
-                        /*
-                        Product product = new Product(manufacturer, name, description, price, stockQuantity);
-                        productService.addProduct(product);
-
-                         */
-                        break;
-
                     case 0:
                         System.out.println("Avslutar kundhantering...");
                         return;

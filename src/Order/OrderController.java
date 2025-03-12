@@ -48,6 +48,7 @@ public class OrderController { //mellanhand mellan användare och orderdata
                 System.out.println(product);
             }
 
+            //En lista för att lagra produkter kunden ska beställa
             ArrayList<OrderProduct> orderProducts = new ArrayList<>();
             boolean addingProducts = true;
 
@@ -55,7 +56,7 @@ public class OrderController { //mellanhand mellan användare och orderdata
                 System.out.print("Enter the Product ID you want to buy: ");
                 int productId = Integer.parseInt(scanner.nextLine());
 
-
+                //Hitta den valda produkten från produktlistan
                 Product selectedProduct = null;
                 for (Product product : products) {
                     if (product.getProductId() == productId) {
@@ -75,6 +76,7 @@ public class OrderController { //mellanhand mellan användare och orderdata
                     System.out.println("Enter quantity: ");
                     quantity = Integer.parseInt(scanner.nextLine());
 
+                    //Om det inte finns tillräckligt med lager
                     if (quantity > selectedProduct.getStockQuantity()) {
                         System.out.println("Sorry, only " + selectedProduct.getStockQuantity() + " available in stock.");
                     } else {
@@ -82,8 +84,11 @@ public class OrderController { //mellanhand mellan användare och orderdata
                     }
                 }
 
+                //Skapar ny order
                 Order newOrder = new Order(0,customerId, new java.sql.Date(System.currentTimeMillis()));
+               //Ny orderProduct, produkt som ingår i ordern
                 OrderProduct orderProduct = new OrderProduct(newOrder, selectedProduct, quantity, selectedProduct.getPrice());
+               //Lägger till i listan
                 orderProducts.add(orderProduct);
 
 
@@ -104,7 +109,10 @@ public class OrderController { //mellanhand mellan användare och orderdata
                         orderProduct.getQuantity());
                 System.out.println("Unit Price: " + orderProduct.getUnitPrice());
                 System.out.println("Total Price: " + orderProduct.getTotalPrice());
+
+                //Lägger till produkterna i ordern i databasen
                 orderService.addOrderProduct(orderProduct);
+                //Uppdaterar lagersaldot för produkterna
                 productService.updateStockQuantity(orderProduct.getProduct().getProductId(), orderProduct.getQuantity());
             }
 

@@ -78,7 +78,6 @@ public class AdminController {
         System.out.println("1. Show products");
         System.out.println("2. Add product");
         System.out.println("3. Update product");
-        System.out.println("4. Delete a product");
         System.out.println("0. Go back to Admin Menu");
 
         String choice = scanner.nextLine();

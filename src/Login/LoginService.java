@@ -39,11 +39,13 @@ public class LoginService {
      */
     public Customer loginAsCustomer(String email, String password) { //inloggning som customer
         try {
+            //Hämtar customer med angiven email
             Customer customer = customerRepository.getCustomerByEmail(email);
 
             if (customer == null) {
                 System.out.println("No customer found");
             } else if (customer.getPassword().equals(password)) {
+                //Om lösenord matchar, logga in
                 System.out.println("Congrats! You've logged in.");
                 return customer;
             } else {
@@ -52,6 +54,7 @@ public class LoginService {
         }catch (SQLException e){
             System.out.println("Ett fel inträffade vi kommunikation med databas: " + e.getMessage());
         }catch (Exception e){
+            //Skriver ut ett felmeddelande
             System.out.println("Ett oväntat fel inträffade: "+ e.getMessage());
         }
         return null;
