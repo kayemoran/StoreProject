@@ -21,6 +21,7 @@ public class CustomerRepository extends Repository {
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery("SELECT * FROM customers")) {
 
+            //Loopar igenom alla resultat och skapar en lista med kunder
             while (rs.next()) {
                 Customer customer = new Customer(
                         rs.getInt("customer_id"),
@@ -49,7 +50,7 @@ public class CustomerRepository extends Repository {
         try (Connection conn = DriverManager.getConnection(URL);
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
-            pstmt.setInt(1, customerId);
+            pstmt.setInt(1, customerId); //Sätter kundens id som parameter
 
             ResultSet rs = pstmt.executeQuery();
 
@@ -78,7 +79,7 @@ public class CustomerRepository extends Repository {
             //om ingen kund hittas, returnera null
             if (!rs.next()) {
                 return null;
-            }//skapa och returnera customer-objek
+            }//skapa och returnera customer-objekt
             return new Customer(rs.getInt("customer_id"), rs.getString("name"), rs.getString("email"), rs.getString("phone"), rs.getString("address"), rs.getString("password") );
         }
     }
@@ -139,6 +140,8 @@ public class CustomerRepository extends Repository {
             String sql = "UPDATE customer SET name = ?, email = ?, phone = ?, adress = ?, password = ? WHERE customer_id = ?";
             try (Connection conn = DriverManager.getConnection(URL);
                  PreparedStatement pstmt = conn.prepareStatement(sql)){
+
+                    //Sätter in kundens uppdaterade info som parametrar
                      pstmt.setString(1, customer.getName());
                      pstmt.setString(2, customer.getEmail());
                      pstmt.setString(3, customer.getPhone());

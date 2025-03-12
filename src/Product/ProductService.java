@@ -27,7 +27,6 @@ public class ProductService {
     public ArrayList<Product> showAllProducts() throws SQLException {
         ArrayList<Product> products = productRepository.getAll();
 
-
         if (products.isEmpty()) {
             System.out.println("Inga produkter hittades.");
         }else {
@@ -88,14 +87,16 @@ public class ProductService {
      * @throws SQLException if there's a database error
      */
     public void showCategories() throws SQLException {
+        //Hämtar alla kategorier från repository
         ArrayList<String> categories = productRepository.getAllCategories();
 
         if (categories.isEmpty()) {
             System.out.println("No categories found");
         } else {
+            //skriver ut alla kategorier
             System.out.println("Categories: ");
             for (int i = 0; i < categories.size(); i++) {
-                System.out.println((i + 1) + ". " + categories.get(i));
+                System.out.println(categories.get(i));
             }
         }
     }

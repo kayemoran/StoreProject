@@ -117,6 +117,7 @@ public class LoginController {
                         System.out.println("Enter password");
                         String userPassword = scanner.nextLine();
 
+                        //Kallar på metoden med inmatade uppgifter
                         customerService.addCustomer(username, eMail, phoneNmbr, address, userPassword);
                         System.out.println("You have now been registered. Log in as a next step!");
                         break;
@@ -168,23 +169,28 @@ public class LoginController {
                     }
                     break;
                 case "2":
+                    //Lägger en beställning
                     orderController.placeOrder(customer.getId());
                     break;
                 case "3":
+                    //Visar kundens orderhistorik
                     orderService.showOrderHistory(customer.getId());
                     break;
                 case "4":
                     System.out.println("Enter the name of the product: ");
                     String name = scanner.nextLine();
 
+                    //Visar produktens info baserat på namn
                     productService.showProductName(name);
                     break;
                 case "5":
+                    //Visar alla kategorier
                     productService.showCategories();
                     System.out.println();
                     System.out.println("Enter name of category: ");
                     String category = scanner.nextLine();
 
+                    //Visar produkter baserat på vald kategori
                     productService.showProductsByCategory(category);
                     break;
                 case "0":
