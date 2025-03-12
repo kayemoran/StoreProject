@@ -78,10 +78,11 @@ public class LoginController {
                         String password = scanner.nextLine();
                         Customer customer = loginService.loginAsCustomer(email, password);
 
+                        //Om kunder inte är null
                         if (customer != null) {
-                            loggedInCustomer = customer;
+                            loggedInCustomer = customer; //spara den inloggade kunden
                             System.out.println("Welcome, " + customer.getUserName() + "!");
-                            showCustomerMenu(customer); //Shows menu for customers
+                            showCustomerMenu(customer); //visar kundens meny
                             return; // Stop login menu from showing after login
                         }
                         break;

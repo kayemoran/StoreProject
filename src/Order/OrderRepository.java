@@ -45,17 +45,22 @@ public class OrderRepository extends Repository {
      * @return a list of orders by one specific customer
      */
     public ArrayList<Order> getOrdersByCustomer(int customerId) {
+        //Tom lista för att lagra beställningar.
         ArrayList<Order> orders = new ArrayList<>();
 
+        //Sql-fråga för att hämta beställningar baserat på customer_id
         String sql = "SELECT * FROM orders WHERE customer_id = ?";
 
         try (Connection conn = DriverManager.getConnection(URL);
              PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
+                //Sätter in customerId som parameter
                 preparedStatement.setInt(1,customerId);
 
+                //Kör frågan och hämtar resultatet
                 ResultSet rs = preparedStatement.executeQuery();
 
                 while (rs.next()) {
+                    //skapa nytt orderobjekt för varje rad i resultatet
                     Order order = new Order (
                             rs.getInt("order_id"),
                             rs.getInt("customer_id"),
@@ -68,6 +73,7 @@ public class OrderRepository extends Repository {
         } catch (SQLException e) {
             System.out.println("Failed to fetch Orders by Customer: " + e.getMessage());
         }
+        //Returnerar listan
         return orders;
     }
 

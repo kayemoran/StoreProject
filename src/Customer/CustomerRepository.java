@@ -95,18 +95,18 @@ public class CustomerRepository extends Repository {
     public void addCustomer(String name, String phone, String email, String address, String password) throws SQLException {
 
         String sql = "INSERT INTO customers (name, email, phone, address, password) " +
-                "VALUES (?, ?, ?, ?, ?)";
+                "VALUES (?, ?, ?, ?, ?)"; //Sql sats för att lägga till en ny kund i customer i databasen
 
-        try (Connection conn = DriverManager.getConnection(URL);
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            //sätter parametrrar för det nya kundkontot
+        try (Connection conn = DriverManager.getConnection(URL); //Öpnnar en anslutning till databasen
+             PreparedStatement pstmt = conn.prepareStatement(sql)) { //Sql-satsen förbereds
+            //sätter parametrarna för det nya kundkontot
             pstmt.setString(1, name);
             pstmt.setString(2, phone);
             pstmt.setString(3, email);
             pstmt.setString(4, address);
             pstmt.setString(5, password);
 
-            int rowsUpdated = pstmt.executeUpdate(); //krö sql frågan & kontrollera om registeringen lyckades
+            int rowsUpdated = pstmt.executeUpdate(); //kör sql-frågan & kontrollerar om registeringen lyckades
 
             if (rowsUpdated > 0) {
                 System.out.println("Registration successful!");
